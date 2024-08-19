@@ -1,0 +1,13 @@
+.navbar {
+  background-color: blueviolet;
+  height: 75px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 0px 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+}

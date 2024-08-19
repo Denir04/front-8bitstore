@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background-color: #bfb1f8;
+  font-family: "Mulish", sans-serif;
+  font-size: 1.2rem;
+}
+
+.container {
+  max-width: 1250px;
+  margin: 20px auto;
+}
+
+.painel {
+  border: 2px solid black;
+  border-radius: 6px;
+  background-color: #ffffff;
+  padding: 20px 35px;
+}
+
+hr {
+  margin: 0;
+}
