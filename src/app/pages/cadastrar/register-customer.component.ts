@@ -1,3 +1,4 @@
+import { customPatterns } from './../../core/patterns';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,7 +11,7 @@ export class RegisterCustomerComponent implements OnInit {
   customerForm: FormGroup = new FormGroup({});
   addressForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
-  customPatterns = { S: { pattern: new RegExp('[a-zA-ZÀ-ÿ0-9 ]') } };
+  customPatterns = customPatterns;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -26,6 +27,7 @@ export class RegisterCustomerComponent implements OnInit {
       senhaNovamente: ['', Validators.required],
     });
     this.addressForm = this.formBuilder.group({
+      apelido: ['', Validators.required],
       tipoResidencia: ['', Validators.required],
       tipoLogradouro: ['', Validators.required],
       logradouro: ['', Validators.required],

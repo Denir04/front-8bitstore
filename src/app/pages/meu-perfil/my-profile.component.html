@@ -1,1 +1,214 @@
-<p>my-profile works!</p>
+<div class="container-lg">
+  <h1 class="mb-4">Meu Perfil</h1>
+  <div class="row">
+    <div class="col-3">
+      <ul class="nav flex-column painel">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/meu-perfil"
+            >Meu Dados Pessoais</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/meu-perfil/enderecos">Meus Endereços</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+        </li>
+      </ul>
+    </div>
+    <ng-template #successReturn>
+      <div class="col-8 painel text-center">
+        <p class="mb-4">Operação Realizada Com Sucesso</p>
+        <button
+          class="btn btn-secondary btn-md"
+          (click)="this.success = false; this.changeOnlyPassword = false"
+        >
+          OK
+        </button>
+      </div>
+    </ng-template>
+    <div class="col-8" *ngIf="!success; else successReturn">
+      <form
+        class="row g-3 painel"
+        [formGroup]="customerForm"
+        *ngIf="!loading && !changeOnlyPassword; else stillLoading"
+      >
+        <h4>Dados Pessoias</h4>
+        <hr />
+        <div class="col-md-6">
+          <label class="form-label">Nome Completo</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nomeCompleto"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              customerForm.get('nomeCompleto')?.getError('required')
+            "
+          >
+            Nome é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Data Nascimento</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="dataNascimento"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              customerForm.get('dataNascimento')?.getError('required')
+            "
+          >
+            Data de Nascimento é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Telefone</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="telefone"
+            mask="(00) 000000000"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && customerForm.get('telefone')?.getError('required')
+            "
+          >
+            Telefone é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">CPF</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="cpf"
+            inputmode="numeric"
+            mask="000.000.000-00"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && customerForm.get('cpf')?.getError('required')"
+          >
+            CPF é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Genêro</label>
+          <select class="form-select" formControlName="genero">
+            <option selected disabled value="">Escolha...</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && customerForm.get('genero')?.getError('required')
+            "
+          >
+            Genero é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">{{ "@" }}</span>
+            <input type="text" class="form-control" formControlName="email" />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="submitted && customerForm.get('email')?.getError('required')"
+          >
+            Email é obrigatório
+          </small>
+        </div>
+        <div class="col-12 mt-4 d-flex justify-content-end">
+          <button
+            class="btn btn-secondary btn w-25 me-3"
+            type="button"
+            (click)="this.changeOnlyPassword = true; this.submitted = false"
+          >
+            Alterar Somente Senha
+          </button>
+          <button
+            class="btn btn-primary btn w-25"
+            type="button"
+            (click)="onSubmit('')"
+          >
+            Alterar
+          </button>
+        </div>
+      </form>
+      <ng-template #onlyPassword>
+        <form [formGroup]="passwordForm" class="row g-3 painel">
+          <h4>Nova Senha</h4>
+          <hr />
+          <div class="col-md-6">
+            <label class="form-label">Senha</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="senha"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && passwordForm.get('senha')?.getError('required')
+              "
+            >
+              Senha é obrigatório
+            </small>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirme Senha</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="senhaNovamente"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted &&
+                passwordForm.get('senhaNovamente')?.getError('required')
+              "
+            >
+              Confirme Senha é obrigatório
+            </small>
+          </div>
+          <div class="col-12 mt-4 d-flex justify-content-end">
+            <button
+              class="btn btn-secondary btn w-25 me-3"
+              type="button"
+              (click)="this.changeOnlyPassword = false; this.submitted = false"
+            >
+              Voltar
+            </button>
+            <button
+              class="btn btn-primary btn w-25"
+              type="button"
+              (click)="onSubmit('password')"
+            >
+              Alterar
+            </button>
+          </div>
+        </form>
+      </ng-template>
+      <ng-template #stillLoading>
+        <p *ngIf="!changeOnlyPassword; else onlyPassword">Carregando...</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

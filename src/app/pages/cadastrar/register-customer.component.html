@@ -131,6 +131,26 @@
     <form class="row g-3 mt-3" [formGroup]="addressForm">
       <h4>Endereço Residencial</h4>
       <hr />
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label class="form-label">Apelido</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="apelido"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && addressForm.get('apelido')?.getError('required')
+            "
+          >
+            Apelido é obrigatório
+          </small>
+        </div>
+      </div>
       <div class="col-md-2">
         <label class="form-label">Tipo Residencia</label>
         <select class="form-select" formControlName="tipoResidencia">

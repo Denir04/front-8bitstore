@@ -8,6 +8,8 @@ import { MyProfileComponent } from './pages/meu-perfil/my-profile.component';
 import { ProductListComponent } from './pages/home/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MyAddressesComponent } from './pages/meu-perfil/my-addresses/my-addresses.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     RegisterCustomerComponent,
     MyProfileComponent,
     ProductListComponent,
+    MyAddressesComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,6 +25,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     FormsModule,
     ReactiveFormsModule,
     NgxMaskDirective,
+    HttpClientModule,
   ],
   providers: [
     provideNgxMask({
