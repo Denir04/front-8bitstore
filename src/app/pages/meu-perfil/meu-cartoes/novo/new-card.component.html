@@ -1,0 +1,135 @@
+<div class="container-lg">
+  <h1 class="mb-4">Meu Perfil</h1>
+  <div class="row">
+    <div class="col-3">
+      <ul class="nav flex-column painel">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/meu-perfil"
+            >Meu Dados Pessoais</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/meu-perfil/enderecos">Meus Endereços</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/meu-perfil/cartoes">Meus Cartões</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-8">
+      <form
+        class="row g-3 painel"
+        [formGroup]="creditCardForm"
+        *ngIf="!loading && !success && !error; else other"
+      >
+        <h4>Novo Cartão Crédito</h4>
+        <hr />
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label class="form-label">Número Impresso</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="numeroImpresso"
+              mask="0000.0000.0000.0000"
+              placeholder="0000.0000.0000.0000"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted &&
+                creditCardForm.get('numeroImpresso')?.getError('required')
+              "
+            >
+              Número Impresso é obrigatório
+            </small>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">Nome Impresso</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nomeImpresso"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              creditCardForm.get('nomeImpresso')?.getError('required')
+            "
+          >
+            Nome Impresso é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Bandeira</label>
+          <select class="form-select" formControlName="bandeira">
+            <option selected disabled value="">Escolha...</option>
+            <option value="visa">Visa</option>
+            <option value="mastercard">Mastercard</option>
+            <option value="amex">American Express</option>
+            <option value="elo">Elo</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && creditCardForm.get('bandeira')?.getError('required')
+            "
+          >
+            Bandeira é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">CVV</label>
+          <input
+            type="text"
+            class="form-control"
+            mask="000"
+            formControlName="cvv"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && creditCardForm.get('cvv')?.getError('required')"
+          >
+            Número é obrigatório
+          </small>
+        </div>
+        <div class="col-12 mt-4 d-flex justify-content-between">
+          <button class="btn btn-secondary btn-lg w-20" (click)="onBack()">
+            Voltar
+          </button>
+          <div>
+            <button
+              class="btn btn-primary btn-lg py-2 px-5"
+              type="button"
+              (click)="onSubmit()"
+            >
+              Criar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-8">
+    <ng-template #other>
+      <div *ngIf="loading">
+        <p>Carregando...</p>
+      </div>
+      <div *ngIf="success">
+        <div class="painel text-center">
+          <p class="mb-4">Operação realizada com sucesso!</p>
+          <button
+            class="btn btn-secondary btn-md"
+            (click)="this.success = false; onBack()"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

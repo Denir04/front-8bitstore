@@ -12,6 +12,8 @@ import { MyAddressesComponent } from './pages/meu-perfil/meu-enderecos/my-addres
 import { HttpClientModule } from '@angular/common/http';
 import { ViewAddressComponent } from './pages/meu-perfil/meu-enderecos/visualizar/view-address.component';
 import { NewAddressComponent } from './pages/meu-perfil/meu-enderecos/novo/new-address.component';
+import { MyCardsComponent } from './pages/meu-perfil/meu-cartoes/my-cards.component';
+import { NewCardComponent } from './pages/meu-perfil/meu-cartoes/novo/new-card.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { NewAddressComponent } from './pages/meu-perfil/meu-enderecos/novo/new-a
     MyAddressesComponent,
     ViewAddressComponent,
     NewAddressComponent,
+    MyCardsComponent,
+    NewCardComponent,
   ],
   imports: [
     BrowserModule,
