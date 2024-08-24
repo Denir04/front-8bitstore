@@ -184,3 +184,11 @@ ul.nav li a {
 ul.nav li a.active {
   font-weight: bold;
 }
+
+.tag {
+  background-color: #d47807;
+  padding: 2px 15px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: white;
+}

@@ -8,8 +8,10 @@ import { MyProfileComponent } from './pages/meu-perfil/my-profile.component';
 import { ProductListComponent } from './pages/home/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { MyAddressesComponent } from './pages/meu-perfil/my-addresses/my-addresses.component';
+import { MyAddressesComponent } from './pages/meu-perfil/meu-enderecos/my-addresses.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ViewAddressComponent } from './pages/meu-perfil/meu-enderecos/visualizar/view-address.component';
+import { NewAddressComponent } from './pages/meu-perfil/meu-enderecos/novo/new-address.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     MyProfileComponent,
     ProductListComponent,
     MyAddressesComponent,
+    ViewAddressComponent,
+    NewAddressComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 export interface Address {
+  id: number;
   apelido: string;
   tipo_residencia: string;
   tipo_logradouro: string;
@@ -10,4 +11,7 @@ export interface Address {
   estado: string;
   pais: string;
   observacoes: string;
+  cobranca: boolean;
+  entrega: boolean;
+  residencial: boolean;
 }

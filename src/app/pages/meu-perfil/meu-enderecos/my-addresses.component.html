@@ -1,0 +1,57 @@
+<div class="container-lg">
+  <h1 class="mb-4">Meu Perfil</h1>
+  <div class="row">
+    <div class="col-3">
+      <ul class="nav flex-column painel">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/meu-perfil"
+            >Meu Dados Pessoais</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/meu-perfil/enderecos"
+            >Meus Endereços</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+        </li>
+      </ul>
+    </div>
+    <main class="col-8">
+      <section *ngIf="!loading; else stillLoading">
+        <ul>
+          <li
+            class="painel mb-3 d-flex justify-content-between align-items-center"
+            *ngFor="let address of myAddresses"
+          >
+            <div class="d-flex flex-column">
+              <p class="fs-4 fw-bold">{{ address.apelido }}</p>
+              <div class="mt-4">
+                <span class="tag me-2" *ngIf="address.entrega">Entrega</span>
+                <span class="tag me-2" *ngIf="address.cobranca">Cobrança</span>
+                <span class="tag me-2" *ngIf="address.residencial"
+                  >Residencial</span
+                >
+              </div>
+            </div>
+            <div class="actions">
+              <button
+                class="btn btn-primary"
+                (click)="goToViewAddress(address.id)"
+              >
+                Visualizar
+              </button>
+            </div>
+          </li>
+        </ul>
+        <button class="btn btn-primary" (click)="goToNewAddress()">
+          Criar Novo Endereço
+        </button>
+      </section>
+      <ng-template #stillLoading>
+        <p>Carregando...</p>
+      </ng-template>
+    </main>
+  </div>
+</div>

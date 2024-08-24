@@ -24,41 +24,29 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.customerForm = this.formBuilder.group({
-      nomeCompleto: ['', Validators.required],
-      dataNascimento: ['', Validators.required],
-      telefone: ['', Validators.required],
-      cpf: ['', Validators.required],
-      genero: ['', Validators.required],
-      email: ['', Validators.required],
+    this.customerService.getPersonalData('1').subscribe((customerBack) => {
+      this.customerForm = this.formBuilder.group({
+        nomeCompleto: [customerBack.nome_completo, Validators.required],
+        dataNascimento: [customerBack.data_nascimento, Validators.required],
+        telefone: [customerBack.telefone, Validators.required],
+        cpf: [customerBack.cpf, Validators.required],
+        genero: [customerBack.genero, Validators.required],
+        email: [customerBack.email, Validators.required],
+      });
+      this.loading = false;
     });
+
     this.passwordForm = this.formBuilder.group({
       senha: ['', Validators.required],
       senhaNovamente: ['', Validators.required],
     });
-
-    this.customerService.getPersonalData('1').subscribe((customerBack) => {
-      this.customerForm.patchValue({
-        nomeCompleto: customerBack.nome_completo,
-        dataNascimento: customerBack.data_nascimento,
-        telefone: customerBack.telefone,
-        cpf: customerBack.cpf,
-        genero: customerBack.genero,
-        email: customerBack.email,
-      });
-      this.customerForm.markAllAsTouched();
-      this.customerForm.updateValueAndValidity();
-      this.loading = false;
-    });
   }
 
   onSubmit(type: string) {
-    this.submitted = true;
-    console.log(this.customerForm.valid);
-    console.log(this.passwordForm.valid);
     if (type === 'password') {
       if (this.passwordForm.valid) {
         this.success = true;
+        this.passwordForm.reset();
       }
     } else if (this.customerForm.valid) {
       this.success = true;

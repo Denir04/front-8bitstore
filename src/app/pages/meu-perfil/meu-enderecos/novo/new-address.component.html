@@ -1,0 +1,285 @@
+<div class="container-lg">
+  <h1 class="mb-4">Meu Perfil</h1>
+  <div class="row">
+    <div class="col-3">
+      <ul class="nav flex-column painel">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/meu-perfil"
+            >Meu Dados Pessoais</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/meu-perfil/enderecos"
+            >Meus Endereços</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-8">
+      <form
+        class="row g-3 painel"
+        [formGroup]="addressForm"
+        *ngIf="!loading && !success && !error; else other"
+      >
+        <h4>Endereço Residencial</h4>
+        <hr />
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label class="form-label">Apelido</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="apelido"
+              [mask]="'S*'"
+              [patterns]="customPatterns"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && addressForm.get('apelido')?.getError('required')
+              "
+            >
+              Apelido é obrigatório
+            </small>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Tipo Residencia</label>
+          <select class="form-select" formControlName="tipoResidencia">
+            <option selected disabled value="">Escolha...</option>
+            <option value="casa">Casa</option>
+            <option value="apartamento">Apartamento</option>
+            <option value="codominio">Condominio</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              addressForm.get('tipoResidencia')?.getError('required')
+            "
+          >
+            Tipo Residencia é obrigatório
+          </small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Tipo Logradouro</label>
+          <select class="form-select" formControlName="tipoLogradouro">
+            <option selected disabled value="">Escolha...</option>
+            <option value="rua">Rua</option>
+            <option value="avenida">Avenida</option>
+            <option value="praca">Praça</option>
+            <option value="jardim">Praça</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted &&
+              addressForm.get('tipoLogradouro')?.getError('required')
+            "
+          >
+            Tipo Logradouro é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Logradouro</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="logradouro"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && addressForm.get('logradouro')?.getError('required')
+            "
+          >
+            Logradouro é obrigatório
+          </small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Número</label>
+          <input
+            type="text"
+            class="form-control"
+            mask="A*"
+            formControlName="numero"
+            maxlength="5"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('numero')?.getError('required')"
+          >
+            Número é obrigatório
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Bairro</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="bairro"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('bairro')?.getError('required')"
+          >
+            Bairro é obrigatório
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Cidade</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="cidade"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('cidade')?.getError('required')"
+          >
+            Cidade é obrigatório
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Estado</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="estado"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('estado')?.getError('required')"
+          >
+            Estado é obrigatório
+          </small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">País</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="pais"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('pais')?.getError('required')"
+          >
+            País é obrigatório
+          </small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">CEP</label>
+          <input
+            type="text"
+            class="form-control"
+            mask="00000-000"
+            formControlName="cep"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && addressForm.get('cep')?.getError('required')"
+          >
+            CEP é obrigatório
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Observações</label>
+          <input
+            type="text"
+            class="form-control"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+        </div>
+        <div class="col-md-12">
+          <div class="form-check d-flex align-items-center">
+            <input
+              class="form-check-input me-3"
+              type="checkbox"
+              formControlName="residencial"
+              id="checkResidencial"
+              value="false"
+            />
+            <label class="form-check-label" for="checkResidencial">
+              Endereço Residencial Padrão
+            </label>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-check d-flex align-items-center">
+            <input
+              class="form-check-input me-3"
+              type="checkbox"
+              formControlName="entrega"
+              id="checkEntrega"
+              value="false"
+            />
+            <label class="form-check-label" for="checkEntrega">
+              Endereço Entrega Padrão
+            </label>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-check d-flex align-items-center">
+            <input
+              class="form-check-input me-3"
+              type="checkbox"
+              formControlName="cobranca"
+              id="checkCobranca"
+              value="false"
+            />
+            <label class="form-check-label" for="checkCobranca">
+              Endereço Cobrança Padrão
+            </label>
+          </div>
+        </div>
+        <div class="col-12 mt-4 d-flex justify-content-between">
+          <button class="btn btn-secondary btn-lg w-20" (click)="onBack()">
+            Voltar
+          </button>
+          <div>
+            <button
+              class="btn btn-primary btn-lg py-2 px-5"
+              type="button"
+              (click)="onSubmit()"
+            >
+              Criar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-8">
+    <ng-template #other>
+      <div *ngIf="loading">
+        <p>Carregando...</p>
+      </div>
+      <div *ngIf="success">
+        <div class="painel text-center">
+          <p class="mb-4">Operação realizada com sucesso!</p>
+          <button
+            class="btn btn-secondary btn-md"
+            (click)="this.success = false; onBack()"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
