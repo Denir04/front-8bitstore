@@ -1,6 +1,9 @@
 import { customPatterns } from './../../core/patterns';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ErrorMsgs } from 'src/app/models/errorMsgs';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-register-customer',
@@ -12,24 +15,28 @@ export class RegisterCustomerComponent implements OnInit {
   addressForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
   customPatterns = customPatterns;
+  loading = false;
+  success = false;
+  error = false;
+  errorMsgs: ErrorMsgs|undefined;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private router: Router) {}
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
-      nomeCompleto: ['', Validators.required],
-      dataNascimento: ['', Validators.required],
+      nome_completo: ['', Validators.required],
+      data_nascimento: ['', Validators.required],
       telefone: ['', Validators.required],
-      cpf: ['', [Validators.required, Validators.email]],
-      genero: ['', Validators.required],
+      cpf: ['', [Validators.required]],
+      genero: [null, Validators.required],
       email: ['', Validators.required],
       senha: ['', Validators.required],
-      senhaNovamente: ['', Validators.required],
+      senha_novamente: ['', Validators.required],
     });
     this.addressForm = this.formBuilder.group({
       apelido: ['', Validators.required],
-      tipoResidencia: ['', Validators.required],
-      tipoLogradouro: ['', Validators.required],
+      tipo_residencia: [null, Validators.required],
+      tipo_logradouro: [null, Validators.required],
       logradouro: ['', Validators.required],
       numero: ['', Validators.required],
       bairro: ['', Validators.required],
@@ -41,8 +48,23 @@ export class RegisterCustomerComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-    console.log(this.customerForm.value);
-  }
+    onSubmit() {
+      this.customerService
+        .registerCustomer({...this.customerForm.value, endereco_residencial: {...this.addressForm.value, a: 'a'}})
+        .subscribe(res => {
+          console.log(res);
+          this.success = true;
+        }, ({status, error}) => {
+          if(status === 400){
+            console.log(error);
+            this.errorMsgs = error;
+          } else{
+            this.error = true;
+          }
+        })
+    }
+
+    goHome(){
+      this.router.navigate(['/']);
+    }
 }

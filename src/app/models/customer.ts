@@ -1,4 +1,7 @@
+import { Address } from "./address";
+
 export interface Customer {
+  id: string;
   nome_completo: string;
   data_nascimento: string;
   cpf: string;
@@ -7,4 +10,5 @@ export interface Customer {
   email: string;
   senha: string;
   senha_novamente: string;
+  endereco_residencial: Address;
 }

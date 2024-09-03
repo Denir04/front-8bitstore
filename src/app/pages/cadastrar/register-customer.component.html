@@ -1,6 +1,6 @@
 <div class="container">
   <h1 class="mb-4">Cadastrar Cliente</h1>
-  <div class="painel">
+  <div class="painel" *ngIf="!loading && !success && !error; else other">
     <form class="row g-3" [formGroup]="customerForm">
       <h4>Dados Pessoias</h4>
       <hr />
@@ -9,17 +9,17 @@
         <input
           type="text"
           class="form-control"
-          formControlName="nomeCompleto"
+          formControlName="nome_completo"
           [mask]="'S*'"
           [patterns]="customPatterns"
         />
         <small
           class="text-danger"
           *ngIf="
-            submitted && customerForm.get('nomeCompleto')?.getError('required')
+            errorMsgs?.nome_completo
           "
         >
-          Nome é obrigatório
+          {{errorMsgs?.nome_completo}}
         </small>
       </div>
       <div class="col-md-6">
@@ -27,16 +27,15 @@
         <input
           type="date"
           class="form-control"
-          formControlName="dataNascimento"
+          formControlName="data_nascimento"
         />
         <small
           class="text-danger"
           *ngIf="
-            submitted &&
-            customerForm.get('dataNascimento')?.getError('required')
+            errorMsgs?.data_nascimento
           "
         >
-          Data de Nascimento é obrigatório
+          {{errorMsgs?.data_nascimento}}
         </small>
       </div>
       <div class="col-md-6">
@@ -50,10 +49,10 @@
         <small
           class="text-danger"
           *ngIf="
-            submitted && customerForm.get('telefone')?.getError('required')
+            errorMsgs?.telefone
           "
         >
-          Telefone é obrigatório
+          {{errorMsgs?.telefone}}
         </small>
       </div>
       <div class="col-md-6">
@@ -67,24 +66,24 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && customerForm.get('cpf')?.getError('required')"
+          *ngIf="errorMsgs?.cpf"
         >
-          CPF é obrigatório
+          {{errorMsgs?.cpf}}
         </small>
       </div>
       <div class="col-md-6">
         <label class="form-label">Genêro</label>
         <select class="form-select" formControlName="genero">
           <option selected disabled value="">Escolha...</option>
-          <option value="masculino">Masculino</option>
-          <option value="feminino">Feminino</option>
-          <option value="outro">Outro</option>
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+          <option value="O">Outro</option>
         </select>
         <small
           class="text-danger"
-          *ngIf="submitted && customerForm.get('genero')?.getError('required')"
+          *ngIf="errorMsgs?.genero"
         >
-          Genero é obrigatório
+          {{errorMsgs?.genero}}
         </small>
       </div>
       <div class="col-md-6">
@@ -95,9 +94,9 @@
         </div>
         <small
           class="text-danger"
-          *ngIf="submitted && customerForm.get('email')?.getError('required')"
+          *ngIf="errorMsgs?.email"
         >
-          Email é obrigatório
+          {{errorMsgs?.email}}
         </small>
       </div>
       <div class="col-md-6">
@@ -105,9 +104,9 @@
         <input type="password" class="form-control" formControlName="senha" />
         <small
           class="text-danger"
-          *ngIf="submitted && customerForm.get('senha')?.getError('required')"
+          *ngIf="errorMsgs?.senha"
         >
-          Senha é obrigatório
+          {{errorMsgs?.senha}}
         </small>
       </div>
       <div class="col-md-6">
@@ -115,16 +114,15 @@
         <input
           type="password"
           class="form-control"
-          formControlName="senhaNovamente"
+          formControlName="senha_novamente"
         />
         <small
           class="text-danger"
           *ngIf="
-            submitted &&
-            customerForm.get('senhaNovamente')?.getError('required')
+            errorMsgs?.senha_novamente
           "
         >
-          Confirme Senha é obrigatório
+          {{errorMsgs?.senha_novamente}}
         </small>
       </div>
     </form>
@@ -144,46 +142,46 @@
           <small
             class="text-danger"
             *ngIf="
-              submitted && addressForm.get('apelido')?.getError('required')
+              errorMsgs?.['endereco_residencial.apelido']
             "
           >
-            Apelido é obrigatório
+            {{errorMsgs?.['endereco_residencial.apelido']}}
           </small>
         </div>
       </div>
       <div class="col-md-2">
         <label class="form-label">Tipo Residencia</label>
-        <select class="form-select" formControlName="tipoResidencia">
+        <select class="form-select" formControlName="tipo_residencia">
           <option selected disabled value="">Escolha...</option>
-          <option value="casa">Casa</option>
-          <option value="apartamento">Apartamento</option>
-          <option value="codominio">Condominio</option>
+          <option value="CASA">Casa</option>
+          <option value="APARTAMENTO">Apartamento</option>
+          <option value="CONDOMINIO">Condominio</option>
         </select>
         <small
           class="text-danger"
           *ngIf="
-            submitted && addressForm.get('tipoResidencia')?.getError('required')
+            errorMsgs?.['endereco_residencial.tipo_residencia']
           "
         >
-          Tipo Residencia é obrigatório
+          {{errorMsgs?.['endereco_residencial.tipo_residencia']}}
         </small>
       </div>
       <div class="col-md-2">
         <label class="form-label">Tipo Logradouro</label>
-        <select class="form-select" formControlName="tipoLogradouro">
+        <select class="form-select" formControlName="tipo_logradouro">
           <option selected disabled value="">Escolha...</option>
-          <option value="rua">Rua</option>
-          <option value="avenida">Avenida</option>
-          <option value="praca">Praça</option>
-          <option value="jardim">Praça</option>
+          <option value="RUA">Rua</option>
+          <option value="AVENIDA">Avenida</option>
+          <option value="RODOVIA">Praça</option>
+          <option value="JARDIM">Praça</option>
         </select>
         <small
           class="text-danger"
           *ngIf="
-            submitted && addressForm.get('tipoLogradouro')?.getError('required')
+            errorMsgs?.['endereco_residencial.tipo_logradouro']
           "
         >
-          Tipo Logradouro é obrigatório
+          {{errorMsgs?.['endereco_residencial.tipo_logradouro']}}
         </small>
       </div>
       <div class="col-md-6">
@@ -198,10 +196,10 @@
         <small
           class="text-danger"
           *ngIf="
-            submitted && addressForm.get('logradouro')?.getError('required')
+            errorMsgs?.['endereco_residencial.logradouro']
           "
         >
-          Logradouro é obrigatório
+          {{errorMsgs?.['endereco_residencial.logradouro']}}
         </small>
       </div>
       <div class="col-md-2">
@@ -214,9 +212,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('numero')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.numero']"
         >
-          Número é obrigatório
+          {{errorMsgs?.['endereco_residencial.numero']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -230,9 +228,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('bairro')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.bairro']"
         >
-          Bairro é obrigatório
+          {{errorMsgs?.['endereco_residencial.bairro']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -246,9 +244,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('cidade')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.cidade']"
         >
-          Cidade é obrigatório
+          {{errorMsgs?.['endereco_residencial.cidade']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -262,9 +260,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('estado')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.estado']"
         >
-          Estado é obrigatório
+          {{errorMsgs?.['endereco_residencial.estado']}}
         </small>
       </div>
       <div class="col-md-3">
@@ -278,9 +276,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('pais')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.pais']"
         >
-          País é obrigatório
+          {{errorMsgs?.['endereco_residencial.pais']}}
         </small>
       </div>
       <div class="col-md-3">
@@ -293,9 +291,9 @@
         />
         <small
           class="text-danger"
-          *ngIf="submitted && addressForm.get('cep')?.getError('required')"
+          *ngIf="errorMsgs?.['endereco_residencial.cep']"
         >
-          CEP é obrigatório
+          {{errorMsgs?.['endereco_residencial.cep']}}
         </small>
       </div>
       <div class="col-md-6">
@@ -307,15 +305,42 @@
           [patterns]="customPatterns"
         />
       </div>
+      <div class="col-12 mt-4 d-flex justify-content-end">
+        <button
+          class="btn btn-primary btn-lg w-25"
+          type="button"
+          (click)="onSubmit()"
+        >
+          Cadastrar
+        </button>
+      </div>
     </form>
-    <div class="col-12 mt-4 d-flex justify-content-end">
-      <button
-        class="btn btn-primary btn-lg w-25"
-        type="button"
-        (click)="onSubmit()"
-      >
-        Cadastrar
-      </button>
-    </div>
   </div>
+  <ng-template #other class="painel">
+    <div *ngIf="loading">
+      <p>Carregando...</p>
+    </div>
+    <div *ngIf="success">
+      <div class="painel text-center">
+        <p class="mb-4">Operação realizada com sucesso!</p>
+        <button
+          class="btn btn-secondary btn-md"
+          (click)="this.success = false; goHome()"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+    <div *ngIf="error">
+      <div class="painel text-center">
+        <p class="mb-4">Houve um erro!</p>
+        <button
+          class="btn btn-secondary btn-md"
+          (click)="this.error = false;"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </div>

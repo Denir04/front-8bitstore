@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer } from '../models/customer';
@@ -7,14 +7,21 @@ import { Customer } from '../models/customer';
   providedIn: 'root',
 })
 export class CustomerService {
-  apiUrl: string = 'http://localhost:8090';
+  apiUrl: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
+  registerCustomer(newCustomer: Customer): Observable<HttpResponse<any>>{
+    return this.http.post(`${this.apiUrl}/cliente`, newCustomer, {observe: 'response'})
+  }
+
   getPersonalData(id: string): Observable<Customer> {
-    console.log('chama');
     return this.http.get<Customer>(
-      `${this.apiUrl}/meu-perfil/dados-pessoais/${id}`
+      `${this.apiUrl}/cliente/visualizar?clienteId=${id}`
     );
+  }
+
+  updatePersonalData(customerUp: Customer): Observable<HttpResponse<any>>{
+    return this.http.put(`${this.apiUrl}/cliente`,customerUp, {observe: 'response'});
   }
 }
