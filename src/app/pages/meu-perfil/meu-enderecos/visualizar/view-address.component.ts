@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddressService } from 'src/app/services/address.service';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorMsgsAddress } from 'src/app/models/errorMsgAdress';
 
 @Component({
   selector: 'app-view-address',
@@ -16,19 +18,38 @@ export class ViewAddressComponent implements OnInit {
   loading = true;
   success = false;
   confirmDelete = false;
+  error = false;
+  errorMsg = '';
+  enderecoId: string = '';
+  errorMsgs: ErrorMsgsAddress = {
+    apelido: '',
+    bairro: '',
+    cep: '',
+    cidade: '',
+    estado: '',
+    logradouro: '',
+    numero: '',
+    observacoes: '',
+    pais: '',
+    tipo_logradouro: '',
+    tipo_residencia: ''
+};
 
   constructor(
     private addressService: AddressService,
     private formBuilder: FormBuilder,
-    private location: Location
+    private location: Location,
+    private activedRouter: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.addressService.getOneAddress('1', '4').subscribe((address) => {
+    this.enderecoId = this.activedRouter.snapshot.paramMap.get('id') || '';
+    this.addressService.getOneAddress('1', `${this.enderecoId}`).subscribe((address) => {
       this.addressForm = this.formBuilder.group({
         apelido: [address.apelido, Validators.required],
-        tipoResidencia: [address.tipo_residencia, Validators.required],
-        tipoLogradouro: [address.tipo_logradouro, Validators.required],
+        tipo_residencia: [address.tipo_residencia, Validators.required],
+        tipo_logradouro: [address.tipo_logradouro, Validators.required],
         logradouro: [address.logradouro, Validators.required],
         numero: [address.numero, Validators.required],
         bairro: [address.bairro, Validators.required],
@@ -47,10 +68,22 @@ export class ViewAddressComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-    if (this.addressForm.valid) {
-      this.success = true;
-    }
+    this.loading = true;
+    this.addressService.updateAddress({...this.addressForm.value, id: this.enderecoId}, `1`).subscribe(
+      (res) => {
+        this.success = true;
+        this.loading = false;
+      },
+      ({status, error}) => {
+        console.log(error);
+        if(status === 400){
+          this.errorMsgs = error;
+        } else{
+          this.error = true;
+        }
+        this.loading = false;
+      }
+    )
   }
 
   onBack() {
@@ -59,6 +92,17 @@ export class ViewAddressComponent implements OnInit {
 
   onDelete() {
     this.confirmDelete = false;
-    this.success = true;
+    this.loading = true;
+    this.addressService.deleteAddress('1', this.enderecoId).subscribe(
+      (res) => {
+        this.success = true;
+        this.loading = false;
+      },
+      (error) => {
+        this.errorMsg = error.error;
+        this.loading = false;
+        this.error = true;
+      }
+    )
   }
 }

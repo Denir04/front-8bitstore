@@ -30,18 +30,16 @@
             <input
               type="text"
               class="form-control"
-              formControlName="numeroImpresso"
+              formControlName="numero_impresso"
               mask="0000.0000.0000.0000"
               placeholder="0000.0000.0000.0000"
-            />
+              (input)="this.errorMsg.numero_impresso = ''"
+              />
             <small
               class="text-danger"
-              *ngIf="
-                submitted &&
-                creditCardForm.get('numeroImpresso')?.getError('required')
-              "
+              *ngIf="this.errorMsg.numero_impresso"
             >
-              Número Impresso é obrigatório
+              {{this.errorMsg.numero_impresso}}
             </small>
           </div>
         </div>
@@ -50,23 +48,21 @@
           <input
             type="text"
             class="form-control"
-            formControlName="nomeImpresso"
+            formControlName="nome_impresso"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="this.errorMsg.nome_impresso = ''"
           />
           <small
             class="text-danger"
-            *ngIf="
-              submitted &&
-              creditCardForm.get('nomeImpresso')?.getError('required')
-            "
+            *ngIf="this.errorMsg.nome_impresso"
           >
-            Nome Impresso é obrigatório
+            {{this.errorMsg.nome_impresso}}
           </small>
         </div>
         <div class="col-md-6">
           <label class="form-label">Bandeira</label>
-          <select class="form-select" formControlName="bandeira">
+          <select class="form-select" formControlName="bandeira" (input)="this.errorMsg.bandeira = ''">
             <option selected disabled value="">Escolha...</option>
             <option value="visa">Visa</option>
             <option value="mastercard">Mastercard</option>
@@ -75,11 +71,9 @@
           </select>
           <small
             class="text-danger"
-            *ngIf="
-              submitted && creditCardForm.get('bandeira')?.getError('required')
-            "
+            *ngIf="this.errorMsg.bandeira"
           >
-            Bandeira é obrigatório
+            {{this.errorMsg.bandeira}}
           </small>
         </div>
         <div class="col-md-6">
@@ -89,12 +83,13 @@
             class="form-control"
             mask="000"
             formControlName="cvv"
+            (input)="this.errorMsg.cvv = ''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && creditCardForm.get('cvv')?.getError('required')"
+            *ngIf="this.errorMsg.cvv"
           >
-            Número é obrigatório
+            {{this.errorMsg.cvv}}
           </small>
         </div>
         <div class="col-12 mt-4 d-flex justify-content-between">

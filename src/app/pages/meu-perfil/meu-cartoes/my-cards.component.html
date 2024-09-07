@@ -27,7 +27,7 @@
           >
             <div class="d-flex flex-column">
               <p class="fs-4 fw-bold">
-                **** {{ card.numero_impresso.slice(-4) }} {{ card.bandeira }}
+                **** {{ card.numero_impresso }} {{ card.bandeira.toLocaleUpperCase() }}
               </p>
             </div>
             <div class="actions">
@@ -67,7 +67,7 @@
             <p class="mb-4">Operação realizada com sucesso!</p>
             <button
               class="btn btn-secondary btn-md"
-              (click)="this.success = false"
+              (click)="onReloadPage();"
             >
               OK
             </button>
@@ -94,7 +94,7 @@
             <div class="row mt-2 d-flex justify-content-center">
               <button
                 class="btn btn-secondary btn-md col-1"
-                (click)="this.error = false; this.errorMsg = ''"
+                (click)="this.error = false; this.errorMsg = '';"
               >
                 OK
               </button>

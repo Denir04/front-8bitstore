@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { customPatterns } from 'src/app/core/patterns';
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ErrorMsgsCard } from 'src/app/models/errorMsgCard';
 
 @Component({
   selector: 'app-new-card',
@@ -16,6 +17,12 @@ export class NewCardComponent {
   success = false;
   submitted = false;
   error = false;
+  errorMsg: ErrorMsgsCard = {
+    numero_impresso: '',
+    nome_impresso: '',
+    cvv: '',
+    bandeira: ''
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,21 +32,23 @@ export class NewCardComponent {
 
   ngOnInit(): void {
     this.creditCardForm = this.formBuilder.group({
-      numeroImpresso: ['', Validators.required],
-      nomeImpresso: ['', Validators.required],
+      numero_impresso: ['', Validators.required],
+      nome_impresso: ['', Validators.required],
       cvv: ['', Validators.required],
-      bandeira: ['', Validators.required],
+      bandeira: [null, Validators.required],
     });
   }
+  
 
   onSubmit() {
-    this.submitted = true;
-    if (!this.creditCardForm.valid) return;
     this.loading = true;
     this.creditCardService
-      .postNewCreditCard(this.creditCardForm.value)
+      .postNewCreditCard(this.creditCardForm.value, `1`)
       .subscribe((response) => {
-        if (response.ok) this.success = true;
+        this.loading = false;
+        this.success = true;
+      }, ({error, status}) => {
+        if(status == 400) this.errorMsg = error;
         else this.error = true;
         this.loading = false;
       });

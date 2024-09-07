@@ -7,17 +7,17 @@ import { CreditCard } from '../models/credit-card';
   providedIn: 'root',
 })
 export class CreditCardService {
-  private apiUrl: string = 'http://localhost:8090/meu-perfil';
+  private apiUrl: string = 'http://localhost:8080/cartao';
   constructor(private http: HttpClient) {}
 
   getAllCreditCard(id: string): Observable<HttpResponse<any>> {
-    return this.http.get(`${this.apiUrl}/meus-cartoes/${id}`, {
+    return this.http.get(`${this.apiUrl}?clienteId=${id}`, {
       observe: 'response',
     });
   }
 
-  postNewCreditCard(newCreditCard: CreditCard): Observable<HttpResponse<any>> {
-    return this.http.post(`${this.apiUrl}/meus-cartoes/novo`, newCreditCard, {
+  postNewCreditCard(newCreditCard: CreditCard, id: string): Observable<HttpResponse<any>> {
+    return this.http.post(`${this.apiUrl}?clienteId=${id}`, newCreditCard, {
       observe: 'response',
     });
   }
@@ -27,7 +27,7 @@ export class CreditCardService {
     customerId: number
   ): Observable<HttpResponse<any>> {
     return this.http.delete(
-      `${this.apiUrl}/meus-cartoes/${customerId}/excluir/${cardId}`,
+      `${this.apiUrl}?clienteId=${customerId}&cartaoId=${cardId}`,
       { observe: 'response' }
     );
   }
@@ -37,7 +37,7 @@ export class CreditCardService {
     customerId: number
   ): Observable<HttpResponse<any>> {
     return this.http.put(
-      `${this.apiUrl}/meus-cartoes/${customerId}/preferencial/${cardId}`,
+      `${this.apiUrl}?clienteId=${customerId}&cartaoId=${cardId}`,
       null,
       { observe: 'response' }
     );

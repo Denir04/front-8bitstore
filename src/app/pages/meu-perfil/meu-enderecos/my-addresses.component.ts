@@ -16,8 +16,9 @@ export class MyAddressesComponent implements OnInit {
   constructor(private addressService: AddressService, private router: Router) {}
 
   ngOnInit(): void {
-    this.addressService.getAllAddress('id').subscribe((addressesBack) => {
+    this.addressService.getAllAddress('1').subscribe((addressesBack) => {
       this.myAddresses = addressesBack;
+      console.log(addressesBack);
       this.loading = false;
     });
   }

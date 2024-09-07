@@ -4,6 +4,7 @@ import { customPatterns } from 'src/app/core/patterns';
 import { AddressService } from 'src/app/services/address.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ErrorMsgsAddress } from 'src/app/models/errorMsgAdress';
 
 @Component({
   selector: 'app-new-address',
@@ -17,6 +18,19 @@ export class NewAddressComponent implements OnInit {
   loading = false;
   success = false;
   error = false;
+  errorMsgs: ErrorMsgsAddress = {
+    apelido: '',
+    bairro: '',
+    cep: '',
+    cidade: '',
+    estado: '',
+    logradouro: '',
+    numero: '',
+    observacoes: '',
+    pais: '',
+    tipo_logradouro: '',
+    tipo_residencia: ''
+};
 
   constructor(
     private addressService: AddressService,
@@ -28,8 +42,8 @@ export class NewAddressComponent implements OnInit {
   ngOnInit(): void {
     this.addressForm = this.formBuilder.group({
       apelido: ['', Validators.required],
-      tipoResidencia: ['', Validators.required],
-      tipoLogradouro: ['', Validators.required],
+      tipo_residencia: [null, Validators.required],
+      tipo_logradouro: [null, Validators.required],
       logradouro: ['', Validators.required],
       numero: ['', Validators.required],
       bairro: ['', Validators.required],
@@ -45,16 +59,20 @@ export class NewAddressComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-    if (this.addressForm.valid) {
-      this.loading = true;
-      this.addressService
-        .postNewAddress(this.addressForm.value)
-        .subscribe((response) => {
-          response.ok ? (this.success = true) : (this.error = true);
-          this.loading = false;
-        });
-    }
+    this.loading = true;
+    this.addressService
+      .postNewAddress(this.addressForm.value, '1')
+      .subscribe((response) => {
+        this.success = true;
+        this.loading = false;
+      }, ({error, status}) => {
+        if(status === 400){
+          this.errorMsgs = error;
+        } else{
+          this.error = true;
+        }
+        this.loading = false;
+      });
   }
 
   onBack() {

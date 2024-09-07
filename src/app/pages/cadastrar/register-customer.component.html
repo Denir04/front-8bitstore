@@ -12,14 +12,15 @@
           formControlName="nome_completo"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs.nome_completo = ''"
         />
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.nome_completo
+            errorMsgs.nome_completo
           "
         >
-          {{errorMsgs?.nome_completo}}
+          {{errorMsgs.nome_completo}}
         </small>
       </div>
       <div class="col-md-6">
@@ -28,14 +29,15 @@
           type="date"
           class="form-control"
           formControlName="data_nascimento"
+          (input)="this.errorMsgs.data_nascimento= ''"
         />
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.data_nascimento
+            errorMsgs.data_nascimento
           "
         >
-          {{errorMsgs?.data_nascimento}}
+          {{errorMsgs.data_nascimento}}
         </small>
       </div>
       <div class="col-md-6">
@@ -45,14 +47,15 @@
           class="form-control"
           formControlName="telefone"
           mask="(00) 000000000"
+          (input)="this.errorMsgs.telefone= ''"
         />
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.telefone
+            errorMsgs.telefone
           "
         >
-          {{errorMsgs?.telefone}}
+          {{errorMsgs.telefone}}
         </small>
       </div>
       <div class="col-md-6">
@@ -63,17 +66,18 @@
           formControlName="cpf"
           inputmode="numeric"
           mask="000.000.000-00"
+          (input)="this.errorMsgs.cpf= ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.cpf"
+          *ngIf="errorMsgs.cpf"
         >
-          {{errorMsgs?.cpf}}
+          {{errorMsgs.cpf}}
         </small>
       </div>
       <div class="col-md-6">
         <label class="form-label">Genêro</label>
-        <select class="form-select" formControlName="genero">
+        <select class="form-select" formControlName="genero" (input)="this.errorMsgs.genero= ''">
           <option selected disabled value="">Escolha...</option>
           <option value="M">Masculino</option>
           <option value="F">Feminino</option>
@@ -81,32 +85,32 @@
         </select>
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.genero"
+          *ngIf="errorMsgs.genero"
         >
-          {{errorMsgs?.genero}}
+          {{errorMsgs.genero}}
         </small>
       </div>
       <div class="col-md-6">
         <label class="form-label">Email</label>
         <div class="input-group">
           <span class="input-group-text">{{ "@" }}</span>
-          <input type="text" class="form-control" formControlName="email" />
+          <input type="text" class="form-control" formControlName="email" (input)="this.errorMsgs.email= ''" />
         </div>
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.email"
+          *ngIf="errorMsgs.email"
         >
-          {{errorMsgs?.email}}
+          {{errorMsgs.email}}
         </small>
       </div>
       <div class="col-md-6">
         <label class="form-label">Senha</label>
-        <input type="password" class="form-control" formControlName="senha" />
+        <input type="password" class="form-control" formControlName="senha"  (input)="this.errorMsgs.senha= ''"/>
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.senha"
+          *ngIf="errorMsgs.senha"
         >
-          {{errorMsgs?.senha}}
+          {{errorMsgs.senha}}
         </small>
       </div>
       <div class="col-md-6">
@@ -115,14 +119,15 @@
           type="password"
           class="form-control"
           formControlName="senha_novamente"
+          (input)="this.errorMsgs.senha_novamente = ''"
         />
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.senha_novamente
+            errorMsgs.senha_novamente
           "
         >
-          {{errorMsgs?.senha_novamente}}
+          {{errorMsgs.senha_novamente}}
         </small>
       </div>
     </form>
@@ -138,20 +143,21 @@
             formControlName="apelido"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="this.errorMsgs['endereco_residencial.apelido'] = ''"
           />
           <small
             class="text-danger"
             *ngIf="
-              errorMsgs?.['endereco_residencial.apelido']
+              errorMsgs['endereco_residencial.apelido']
             "
           >
-            {{errorMsgs?.['endereco_residencial.apelido']}}
+            {{errorMsgs['endereco_residencial.apelido']}}
           </small>
         </div>
       </div>
       <div class="col-md-2">
         <label class="form-label">Tipo Residencia</label>
-        <select class="form-select" formControlName="tipo_residencia">
+        <select class="form-select" formControlName="tipo_residencia" (input)="this.errorMsgs['endereco_residencial.tipo_residencia'] = ''">
           <option selected disabled value="">Escolha...</option>
           <option value="CASA">Casa</option>
           <option value="APARTAMENTO">Apartamento</option>
@@ -160,15 +166,15 @@
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.['endereco_residencial.tipo_residencia']
+            errorMsgs['endereco_residencial.tipo_residencia']
           "
         >
-          {{errorMsgs?.['endereco_residencial.tipo_residencia']}}
+          {{errorMsgs['endereco_residencial.tipo_residencia']}}
         </small>
       </div>
       <div class="col-md-2">
         <label class="form-label">Tipo Logradouro</label>
-        <select class="form-select" formControlName="tipo_logradouro">
+        <select class="form-select" formControlName="tipo_logradouro" (input)="this.errorMsgs['endereco_residencial.tipo_logradouro'] = ''">
           <option selected disabled value="">Escolha...</option>
           <option value="RUA">Rua</option>
           <option value="AVENIDA">Avenida</option>
@@ -178,10 +184,10 @@
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.['endereco_residencial.tipo_logradouro']
+            errorMsgs['endereco_residencial.tipo_logradouro']
           "
         >
-          {{errorMsgs?.['endereco_residencial.tipo_logradouro']}}
+          {{errorMsgs['endereco_residencial.tipo_logradouro']}}
         </small>
       </div>
       <div class="col-md-6">
@@ -192,14 +198,15 @@
           formControlName="logradouro"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs['endereco_residencial.logradouro'] = ''"
         />
         <small
           class="text-danger"
           *ngIf="
-            errorMsgs?.['endereco_residencial.logradouro']
+            errorMsgs['endereco_residencial.logradouro']
           "
         >
-          {{errorMsgs?.['endereco_residencial.logradouro']}}
+          {{errorMsgs['endereco_residencial.logradouro']}}
         </small>
       </div>
       <div class="col-md-2">
@@ -209,12 +216,13 @@
           class="form-control"
           mask="AAAAA"
           formControlName="numero"
+          (input)="this.errorMsgs['endereco_residencial.numero'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.numero']"
+          *ngIf="errorMsgs['endereco_residencial.numero']"
         >
-          {{errorMsgs?.['endereco_residencial.numero']}}
+          {{errorMsgs['endereco_residencial.numero']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -225,12 +233,13 @@
           formControlName="bairro"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs['endereco_residencial.bairro'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.bairro']"
+          *ngIf="errorMsgs['endereco_residencial.bairro']"
         >
-          {{errorMsgs?.['endereco_residencial.bairro']}}
+          {{errorMsgs['endereco_residencial.bairro']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -241,12 +250,13 @@
           formControlName="cidade"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs['endereco_residencial.cidade'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.cidade']"
+          *ngIf="errorMsgs['endereco_residencial.cidade']"
         >
-          {{errorMsgs?.['endereco_residencial.cidade']}}
+          {{errorMsgs['endereco_residencial.cidade']}}
         </small>
       </div>
       <div class="col-md-4">
@@ -257,12 +267,13 @@
           formControlName="estado"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs['endereco_residencial.estado'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.estado']"
+          *ngIf="errorMsgs['endereco_residencial.estado']"
         >
-          {{errorMsgs?.['endereco_residencial.estado']}}
+          {{errorMsgs['endereco_residencial.estado']}}
         </small>
       </div>
       <div class="col-md-3">
@@ -273,12 +284,13 @@
           formControlName="pais"
           [mask]="'S*'"
           [patterns]="customPatterns"
+          (input)="this.errorMsgs['endereco_residencial.pais'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.pais']"
+          *ngIf="errorMsgs['endereco_residencial.pais']"
         >
-          {{errorMsgs?.['endereco_residencial.pais']}}
+          {{errorMsgs['endereco_residencial.pais']}}
         </small>
       </div>
       <div class="col-md-3">
@@ -288,12 +300,13 @@
           class="form-control"
           mask="00000-000"
           formControlName="cep"
+          (input)="this.errorMsgs['endereco_residencial.cep'] = ''"
         />
         <small
           class="text-danger"
-          *ngIf="errorMsgs?.['endereco_residencial.cep']"
+          *ngIf="errorMsgs['endereco_residencial.cep']"
         >
-          {{errorMsgs?.['endereco_residencial.cep']}}
+          {{errorMsgs['endereco_residencial.cep']}}
         </small>
       </div>
       <div class="col-md-6">

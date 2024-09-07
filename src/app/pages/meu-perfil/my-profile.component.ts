@@ -52,19 +52,31 @@ export class MyProfileComponent implements OnInit {
   }
 
   onSubmit(type: string) {
+    this.changeOnlyPassword = false;
+    this.loading = true;
     if (type === 'password') {
-      this.success = true;
-      this.passwordForm.reset();
-      
+      this.customerService.updatePassword({...this.passwordForm.value, id: this.customerId}).subscribe(
+        (res) => {
+          this.loading = false;
+          this.success = true;
+          this.passwordForm.reset();
+        },
+        ({error, status}) => {
+          if(status === 400) {
+            this.changeOnlyPassword = true;
+            this.errorMsgs = error;
+          }
+          else this.error = true;
+          this.loading = false;
+        }
+      )
     }else{
-      this.loading = true;
       this.customerService.updatePersonalData({...this.customerForm.value, id: this.customerId}).subscribe(
         (res) => {
           this.success = true;
           this.loading = false;
         },
         ({error, status}) => {
-          console.log(error, status)
           if(status === 400) this.errorMsgs = error;
           else this.error = true;
           this.loading = false;

@@ -28,6 +28,10 @@ export class MyCardsComponent implements OnInit {
     });
   }
 
+  onReloadPage(){
+    window.location.reload();
+  }
+
   goToNewCreditCard() {
     this.router.navigate(['meu-perfil/cartoes/novo']);
   }
@@ -44,7 +48,7 @@ export class MyCardsComponent implements OnInit {
       ({ error }) => {
         this.confirmDelete = 0;
         this.error = true;
-        this.errorMsg = error?.errorMsg;
+        this.errorMsg = error;
         this.loading = false;
       },
       () => {
@@ -55,7 +59,7 @@ export class MyCardsComponent implements OnInit {
 
   onConfig(id: number) {
     this.loading = true;
-    this.creditCardService.configPreferencial(id, 10).subscribe(
+    this.creditCardService.configPreferencial(id, 1).subscribe(
       (response) => {
         this.loading = false;
         this.success = true;

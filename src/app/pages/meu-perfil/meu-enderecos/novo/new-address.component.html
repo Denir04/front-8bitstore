@@ -22,7 +22,7 @@
       <form
         class="row g-3 painel"
         [formGroup]="addressForm"
-        *ngIf="!loading && !success && !error; else other"
+        *ngIf="!loading && !success; else other"
       >
         <h4>Endereço Residencial</h4>
         <hr />
@@ -35,52 +35,51 @@
               formControlName="apelido"
               [mask]="'S*'"
               [patterns]="customPatterns"
+              (input)="errorMsgs.apelido = ''"
             />
             <small
               class="text-danger"
               *ngIf="
-                submitted && addressForm.get('apelido')?.getError('required')
+                errorMsgs.apelido
               "
             >
-              Apelido é obrigatório
+              {{errorMsgs.apelido}}
             </small>
           </div>
         </div>
         <div class="col-md-2">
           <label class="form-label">Tipo Residencia</label>
-          <select class="form-select" formControlName="tipoResidencia">
+          <select class="form-select" formControlName="tipo_residencia" (input)="errorMsgs.tipo_residencia = ''">
             <option selected disabled value="">Escolha...</option>
-            <option value="casa">Casa</option>
-            <option value="apartamento">Apartamento</option>
-            <option value="codominio">Condominio</option>
+            <option value="CASA">Casa</option>
+            <option value="APARTAMENTO">Apartamento</option>
+            <option value="CONDOMINIO">Condominio</option>
           </select>
           <small
             class="text-danger"
             *ngIf="
-              submitted &&
-              addressForm.get('tipoResidencia')?.getError('required')
+              errorMsgs.tipo_residencia
             "
           >
-            Tipo Residencia é obrigatório
+            {{errorMsgs.tipo_residencia}}
           </small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Tipo Logradouro</label>
-          <select class="form-select" formControlName="tipoLogradouro">
+          <select class="form-select" formControlName="tipo_logradouro" (input)="errorMsgs.tipo_logradouro = ''">
             <option selected disabled value="">Escolha...</option>
-            <option value="rua">Rua</option>
-            <option value="avenida">Avenida</option>
-            <option value="praca">Praça</option>
-            <option value="jardim">Praça</option>
+            <option value="RUA">Rua</option>
+            <option value="AVENIDA">Avenida</option>
+            <option value="PRAÇA">Praça</option>
+            <option value="JARDIM">Praça</option>
           </select>
           <small
             class="text-danger"
             *ngIf="
-              submitted &&
-              addressForm.get('tipoLogradouro')?.getError('required')
+              errorMsgs.tipo_logradouro 
             "
           >
-            Tipo Logradouro é obrigatório
+            {{errorMsgs.tipo_logradouro }}
           </small>
         </div>
         <div class="col-md-6">
@@ -91,14 +90,15 @@
             formControlName="logradouro"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="errorMsgs.logradouro=''"
           />
           <small
             class="text-danger"
             *ngIf="
-              submitted && addressForm.get('logradouro')?.getError('required')
+              errorMsgs.logradouro
             "
           >
-            Logradouro é obrigatório
+            {{errorMsgs.logradouro}}
           </small>
         </div>
         <div class="col-md-2">
@@ -109,12 +109,13 @@
             mask="A*"
             formControlName="numero"
             maxlength="5"
+            (input)="errorMsgs.numero = ''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('numero')?.getError('required')"
+            *ngIf="errorMsgs.numero"
           >
-            Número é obrigatório
+            {{errorMsgs.numero}}
           </small>
         </div>
         <div class="col-md-4">
@@ -125,12 +126,15 @@
             formControlName="bairro"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="errorMsgs.bairro = ''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('bairro')?.getError('required')"
+            *ngIf="
+              errorMsgs.bairro
+            "
           >
-            Bairro é obrigatório
+            {{errorMsgs.bairro}}
           </small>
         </div>
         <div class="col-md-4">
@@ -141,12 +145,13 @@
             formControlName="cidade"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="errorMsgs.cidade=''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('cidade')?.getError('required')"
+            *ngIf="errorMsgs.cidade"
           >
-            Cidade é obrigatório
+            {{errorMsgs.cidade}}
           </small>
         </div>
         <div class="col-md-4">
@@ -157,12 +162,13 @@
             formControlName="estado"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="errorMsgs.estado=''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('estado')?.getError('required')"
+            *ngIf="errorMsgs.estado"
           >
-            Estado é obrigatório
+            {{errorMsgs.estado}}
           </small>
         </div>
         <div class="col-md-3">
@@ -173,12 +179,13 @@
             formControlName="pais"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="errorMsgs.pais = ''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('pais')?.getError('required')"
+            *ngIf="errorMsgs.pais"
           >
-            País é obrigatório
+            {{errorMsgs.pais}}
           </small>
         </div>
         <div class="col-md-3">
@@ -188,12 +195,13 @@
             class="form-control"
             mask="00000-000"
             formControlName="cep"
+            (input)="errorMsgs.cep = ''"
           />
           <small
             class="text-danger"
-            *ngIf="submitted && addressForm.get('cep')?.getError('required')"
+            *ngIf="errorMsgs.cep"
           >
-            CEP é obrigatório
+            {{errorMsgs.cep}}
           </small>
         </div>
         <div class="col-md-6">
@@ -248,13 +256,13 @@
           </div>
         </div>
         <div class="col-12 mt-4 d-flex justify-content-between">
-          <button class="btn btn-secondary btn-lg w-20" (click)="onBack()">
+          <button class="btn btn-secondary btn-lg w-20" type="button" (click)="onBack()">
             Voltar
           </button>
           <div>
             <button
-              class="btn btn-primary btn-lg py-2 px-5"
-              type="button"
+              class="btn btn-primary btn-lg w-20 me-3"
+              type="submit"
               (click)="onSubmit()"
             >
               Criar
