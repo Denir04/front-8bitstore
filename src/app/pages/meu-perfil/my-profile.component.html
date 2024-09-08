@@ -31,14 +31,15 @@
             formControlName="nome_completo"
             [mask]="'S*'"
             [patterns]="customPatterns"
+            (input)="this.errorMsgs.nome_completo = ''"
           />
           <small
             class="text-danger"
             *ngIf="
-              errorMsgs?.nome_completo
+              errorMsgs.nome_completo
             "
           >
-            {{errorMsgs?.nome_completo}}
+            {{errorMsgs.nome_completo}}
           </small>
         </div>
         <div class="col-md-6">
@@ -47,14 +48,15 @@
             type="date"
             class="form-control"
             formControlName="data_nascimento"
+            (input)="this.errorMsgs.data_nascimento = ''"
           />
           <small
             class="text-danger"
             *ngIf="
-              errorMsgs?.data_nascimento
+              errorMsgs.data_nascimento
             "
           >
-            {{errorMsgs?.data_nascimento}}
+            {{errorMsgs.data_nascimento}}
           </small>
         </div>
         <div class="col-md-6">
@@ -64,14 +66,15 @@
             class="form-control"
             formControlName="telefone"
             mask="(00) 000000000"
+            (input)="this.errorMsgs.telefone = ''"
           />
           <small
             class="text-danger"
             *ngIf="
-              errorMsgs?.telefone
+              errorMsgs.telefone
             "
           >
-            {{errorMsgs?.telefone}}
+            {{errorMsgs.telefone}}
           </small>
         </div>
         <div class="col-md-6">
@@ -82,17 +85,18 @@
             formControlName="cpf"
             inputmode="numeric"
             mask="000.000.000-00"
+            (input)="this.errorMsgs.cpf = ''"
           />
           <small
             class="text-danger"
-            *ngIf="errorMsgs?.cpf"
+            *ngIf="errorMsgs.cpf"
           >
-            {{errorMsgs?.cpf}}
+            {{errorMsgs.cpf}}
           </small>
         </div>
         <div class="col-md-6">
           <label class="form-label">Genêro</label>
-          <select class="form-select" formControlName="genero">
+          <select class="form-select" formControlName="genero" (input)="this.errorMsgs.genero=''">
             <option selected disabled value="">Escolha...</option>
             <option value="M">Masculino</option>
             <option value="F">Feminino</option>
@@ -101,7 +105,7 @@
           <small
             class="text-danger"
             *ngIf="
-              errorMsgs?.genero
+              errorMsgs.genero
             "
           >
             Genero é obrigatório
@@ -111,13 +115,13 @@
           <label class="form-label">Email</label>
           <div class="input-group">
             <span class="input-group-text">{{ "@" }}</span>
-            <input type="text" class="form-control" formControlName="email" />
+            <input type="text" class="form-control" formControlName="email" (input)="this.errorMsgs.email=''" />
           </div>
           <small
             class="text-danger"
-            *ngIf="errorMsgs?.email"
+            *ngIf="errorMsgs.email"
           >
-            {{errorMsgs?.email}}
+            {{errorMsgs.email}}
           </small>
         </div>
         <div class="col-12 mt-4 d-flex justify-content-end">
@@ -159,14 +163,15 @@
               type="password"
               class="form-control"
               formControlName="senha"
+              (input)="this.errorMsgs.senha=''"
             />
             <small
               class="text-danger"
               *ngIf="
-                errorMsgs?.senha
+                errorMsgs.senha
               "
             >
-              {{errorMsgs?.senha}}
+              {{errorMsgs.senha}}
             </small>
           </div>
           <div class="col-md-6">
@@ -175,14 +180,15 @@
               type="password"
               class="form-control"
               formControlName="senha_novamente"
+              (input)="this.errorMsgs.senha_novamente=''"
             />
             <small
               class="text-danger"
               *ngIf="
-                errorMsgs?.senha_novamente
+                errorMsgs.senha_novamente
               "
             >
-              {{errorMsgs?.senha_novamente}}
+              {{errorMsgs.senha_novamente}}
             </small>
           </div>
           <div class="col-12 mt-4 d-flex justify-content-end">

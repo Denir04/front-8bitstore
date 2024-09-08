@@ -19,7 +19,27 @@ export class MyProfileComponent implements OnInit {
   changeOnlyPassword: boolean = false;
   loading: boolean = true;
   success: boolean = false;
-  errorMsgs: ErrorMsgs|undefined;
+  errorMsgs: ErrorMsgs = {
+    cpf: '',
+    data_nascimento: '',
+    email: '',
+    genero: '',
+    nome_completo: '',
+    senha: '',
+    senha_novamente: '',
+    telefone: '',
+    "endereco_residencial.apelido": '',
+    "endereco_residencial.bairro": '',
+    "endereco_residencial.cep": '',
+    "endereco_residencial.cidade": '',
+    "endereco_residencial.estado": '',
+    "endereco_residencial.logradouro": '',
+    "endereco_residencial.numero": '',
+    "endereco_residencial.observacoes": '',
+    "endereco_residencial.pais": '',
+    "endereco_residencial.tipo_logradouro": '',
+    "endereco_residencial.tipo_residencia": ''
+  };
   error: boolean = false;
 
   constructor(
