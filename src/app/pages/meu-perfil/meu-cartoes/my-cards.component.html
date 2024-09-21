@@ -16,11 +16,12 @@
         </li>
       </ul>
     </div>
-    <main class="col-8">
       <section
-        *ngIf="!loading && !success && !confirmDelete && !error; else other"
-      >
-        <ul>
+        *ngIf="!loading && !success && !confirmDelete && !error && !loadError; else other"
+        class="col-8"
+        >
+        <p *ngIf="myCards.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum cartão cadastrado.</p>
+        <ul *ngIf="myCards.length > 0">
           <li
             class="painel mb-3 d-flex justify-content-between align-items-center"
             *ngFor="let card of myCards"
@@ -54,16 +55,13 @@
             </div>
           </li>
         </ul>
-        <button class="btn btn-primary" (click)="goToNewCreditCard()">
+        <button class="btn btn-primary" id="criar-cartao" (click)="goToNewCreditCard()">
           Criar Novo Cartão
         </button>
       </section>
       <ng-template #other>
-        <div *ngIf="loading">
-          <p>Carregando...</p>
-        </div>
-        <div *ngIf="success">
-          <div class="painel text-center">
+        <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+        <div *ngIf="success" class="col-8 painel text-center">
             <p class="mb-4">Operação realizada com sucesso!</p>
             <button
               class="btn btn-secondary btn-md"
@@ -71,10 +69,8 @@
             >
               OK
             </button>
-          </div>
         </div>
-        <div *ngIf="confirmDelete">
-          <div class="painel text-center">
+        <div *ngIf="confirmDelete" class="col-8 painel text-center">
             <p class="mb-3">Ter certeza que deseja excluir este cartão?</p>
             <button
               class="btn btn-secondary btn-md me-3"
@@ -85,10 +81,8 @@
             <button class="btn btn-danger btn-md" (click)="onDelete()">
               Excluir
             </button>
-          </div>
         </div>
-        <div *ngIf="error">
-          <div class="painel text-center">
+        <div *ngIf="error" class="col-8 painel text-center">
             <p class="mb-4 fw-bold">Houve um erro ao realizar a operação!</p>
             <span *ngIf="errorMsg">{{ errorMsg }}</span>
             <div class="row mt-2 d-flex justify-content-center">
@@ -99,9 +93,16 @@
                 OK
               </button>
             </div>
-          </div>
         </div>
+        <div *ngIf="loadError" class="col-8 painel text-center">
+          <p class="mb-4">Houve um erro ao carregar deus dados!</p>
+          <button
+            class="btn btn-secondary btn-md"
+            (click)="this.ngOnInit(); this.loadError = false"
+          >
+            Tentar novamente
+          </button>
+      </div>
       </ng-template>
-    </main>
   </div>
 </div>

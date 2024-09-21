@@ -71,7 +71,7 @@
             <option value="RUA">Rua</option>
             <option value="AVENIDA">Avenida</option>
             <option value="PRAÇA">Praça</option>
-            <option value="JARDIM">Praça</option>
+            <option value="JARDIM">Jardim</option>
           </select>
           <small
             class="text-danger"
@@ -119,6 +119,45 @@
           </small>
         </div>
         <div class="col-md-4">
+          <label class="form-label">País</label>
+          <select class="form-select" formControlName="pais" (input)="this.errorMsgs.pais = ''">
+            <option selected disabled value="">Escolha...</option>
+            <option value="BR">Brasil</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="this.errorMsgs.pais"
+          >
+            {{this.errorMsgs.pais}}
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Estado</label>
+          <select class="form-select" formControlName="estado" (change)="errorMsgs.estado = ''; onChangeEstado();">
+            <option selected disabled value="">Escolha...</option>
+            <option *ngFor="let estado of estadosIbge" [value]="estado.sigla">{{estado.nome}}</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="errorMsgs.estado"
+          >
+            {{errorMsgs.estado}}
+          </small>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Cidade</label>
+          <select class="form-select" formControlName="cidade" (input)="this.errorMsgs.cidade = ''">
+            <option selected disabled value="">Escolha...</option>
+            <option *ngFor="let cidade of cidadesUfIbge" [value]="cidade.nome">{{cidade.nome}}</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="errorMsgs.cidade"
+          >
+            {{errorMsgs.cidade}}
+          </small>
+        </div>
+        <div class="col-md-3">
           <label class="form-label">Bairro</label>
           <input
             type="text"
@@ -135,57 +174,6 @@
             "
           >
             {{errorMsgs.bairro}}
-          </small>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Cidade</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="cidade"
-            [mask]="'S*'"
-            [patterns]="customPatterns"
-            (input)="errorMsgs.cidade=''"
-          />
-          <small
-            class="text-danger"
-            *ngIf="errorMsgs.cidade"
-          >
-            {{errorMsgs.cidade}}
-          </small>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Estado</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="estado"
-            [mask]="'S*'"
-            [patterns]="customPatterns"
-            (input)="errorMsgs.estado=''"
-          />
-          <small
-            class="text-danger"
-            *ngIf="errorMsgs.estado"
-          >
-            {{errorMsgs.estado}}
-          </small>
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">País</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="pais"
-            [mask]="'S*'"
-            [patterns]="customPatterns"
-            (input)="errorMsgs.pais = ''"
-          />
-          <small
-            class="text-danger"
-            *ngIf="errorMsgs.pais"
-          >
-            {{errorMsgs.pais}}
           </small>
         </div>
         <div class="col-md-3">

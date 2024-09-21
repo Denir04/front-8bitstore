@@ -16,7 +16,7 @@
         </li>
       </ul>
     </div>
-    <div class="col-8" *ngIf="!loading && !changeOnlyPassword && !success; else other">
+    <div class="col-8" *ngIf="!loading && !changeOnlyPassword && !success && !error; else other">
       <form
         class="row g-3 painel"
         [formGroup]="customerForm"
@@ -153,18 +153,35 @@
         </button>
       </div>
       <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+      <div *ngIf="error" class="col-8 painel text-center">
+          <p class="mb-4">Houve um erro ao carregar deus dados!</p>
+          <button
+            class="btn btn-secondary btn-md"
+            (click)="this.ngOnInit(); this.error = false"
+          >
+            Tentar novamente
+          </button>
+      </div>
       <div class="col-8">
         <form *ngIf="changeOnlyPassword" [formGroup]="passwordForm" class="row g-3 painel">
           <h4>Nova Senha</h4>
           <hr />
           <div class="col-md-6">
             <label class="form-label">Senha</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="senha"
-              (input)="this.errorMsgs.senha=''"
-            />
+            <div class="input-group">
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" formControlName="senha"  
+                (input)="this.errorMsgs.senha= ''"
+                />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="showPassword = !showPassword"
+              >
+                {{ showPassword ? 'Esconder' : 'Mostrar' }}
+              </button>
+            </div>
             <small
               class="text-danger"
               *ngIf="
@@ -176,12 +193,21 @@
           </div>
           <div class="col-md-6">
             <label class="form-label">Confirme Senha</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="senha_novamente"
-              (input)="this.errorMsgs.senha_novamente=''"
-            />
+            <div class="input-group">
+              <input
+                [type]="showPasswordAgain ? 'text' : 'password'" 
+                class="form-control"
+                formControlName="senha_novamente"
+                (input)="this.errorMsgs.senha_novamente = ''"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="showPasswordAgain = !showPasswordAgain"
+              >
+              {{ showPasswordAgain ? 'Esconder' : 'Mostrar' }}
+            </button>
+          </div>
             <small
               class="text-danger"
               *ngIf="

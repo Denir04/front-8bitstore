@@ -13,6 +13,7 @@ export class MyCardsComponent implements OnInit {
   loading = true;
   success = false;
   error = false;
+  loadError = false;
   errorMsg = '';
   confirmDelete = 0;
 
@@ -22,8 +23,12 @@ export class MyCardsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.creditCardService.getAllCreditCard('1').subscribe((response) => {
       response.ok ? (this.myCards = response.body) : (this.error = true);
+      this.loading = false;
+    }, (error) => {
+      this.loadError = true;
       this.loading = false;
     });
   }
@@ -55,6 +60,7 @@ export class MyCardsComponent implements OnInit {
         this.loading = false;
       }
     );
+    this.confirmDelete = 0;
   }
 
   onConfig(id: number) {

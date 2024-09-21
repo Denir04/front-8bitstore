@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMsgs } from 'src/app/models/errorMsgs';
 import { CustomerService } from 'src/app/services/customer.service';
+import { IbgeService } from 'src/app/services/external/ibge.service';
 
 @Component({
   selector: 'app-register-customer',
@@ -18,6 +19,10 @@ export class RegisterCustomerComponent implements OnInit {
   loading = false;
   success = false;
   error = false;
+  estadosIbge: any = [];
+  cidadesUfIbge: any = [];
+  showPassword: boolean = false; 
+  showPasswordAgain: boolean = false;
   errorMsgs: ErrorMsgs = {
     cpf: '',
     data_nascimento: '',
@@ -40,9 +45,15 @@ export class RegisterCustomerComponent implements OnInit {
     "endereco_residencial.tipo_residencia": ''
   };
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder, 
+    private customerService: CustomerService, 
+    private router: Router,
+    private ibgeService: IbgeService
+  ) {}
 
   ngOnInit(): void {
+    this.estadosIbge = this.ibgeService.getEstados();
     this.customerForm = this.formBuilder.group({
       nome_completo: ['', Validators.required],
       data_nascimento: ['', Validators.required],
@@ -69,22 +80,29 @@ export class RegisterCustomerComponent implements OnInit {
   }
 
     onSubmit() {
+      this.loading = true;
       this.customerService
         .registerCustomer({...this.customerForm.value, endereco_residencial: {...this.addressForm.value, a: 'a'}})
         .subscribe(res => {
-          console.log(res);
           this.success = true;
+          this.loading = false;
         }, ({status, error}) => {
-          if(status === 400){
-            console.log(error);
-            this.errorMsgs = error;
-          } else{
-            this.error = true;
-          }
+          if(status === 400) this.errorMsgs = error;
+          else this.error = true;
+          this.loading = false;
         })
     }
 
     goHome(){
       this.router.navigate(['/']);
+    }
+
+    onChangeEstado(){
+      this.ibgeService.getAllCidadesByUF(this.addressForm.get('estado')?.value).subscribe(
+        (res) => {
+          this.cidadesUfIbge = res.body
+        },
+        (err) => console.log(err)
+      )
     }
 }

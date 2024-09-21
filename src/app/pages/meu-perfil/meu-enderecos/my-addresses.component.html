@@ -18,8 +18,7 @@
         </li>
       </ul>
     </div>
-    <main class="col-8">
-      <section *ngIf="!loading; else stillLoading">
+      <section *ngIf="!loading && !error; else other" class="col-8">
         <ul>
           <li
             class="painel mb-3 d-flex justify-content-between align-items-center"
@@ -49,9 +48,17 @@
           Criar Novo Endereço
         </button>
       </section>
-      <ng-template #stillLoading>
-        <p>Carregando...</p>
+      <ng-template #other>
+        <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+        <div *ngIf="error" class="col-8 painel text-center">
+            <p class="mb-4">Houve um erro ao carregar deus dados!</p>
+            <button
+              class="btn btn-secondary btn-md"
+              (click)="this.ngOnInit(); this.error = false"
+            >
+              Tentar novamente
+            </button>
+        </div>
       </ng-template>
-    </main>
   </div>
 </div>

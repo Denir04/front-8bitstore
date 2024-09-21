@@ -18,7 +18,10 @@ export class MyProfileComponent implements OnInit {
   submitted: boolean = false;
   changeOnlyPassword: boolean = false;
   loading: boolean = true;
-  success: boolean = false;
+  success: boolean = false;  
+  error: boolean = false;
+  showPassword: boolean = false;
+  showPasswordAgain: boolean = false;
   errorMsgs: ErrorMsgs = {
     cpf: '',
     data_nascimento: '',
@@ -40,14 +43,13 @@ export class MyProfileComponent implements OnInit {
     "endereco_residencial.tipo_logradouro": '',
     "endereco_residencial.tipo_residencia": ''
   };
-  error: boolean = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.customerService.getPersonalData('1').subscribe((customerBack) => {
       this.customerId = customerBack.id;
       this.customerForm = this.formBuilder.group({
@@ -58,6 +60,9 @@ export class MyProfileComponent implements OnInit {
         genero: [customerBack.genero, Validators.required],
         email: [customerBack.email, Validators.required],
       });
+      this.loading = false;
+    }, (err) => {
+      this.error = true;
       this.loading = false;
     });
 

@@ -1,6 +1,6 @@
 <div class="container">
   <h1 class="mb-4">Cadastrar Cliente</h1>
-  <div class="painel" *ngIf="!loading && !success && !error; else other">
+  <div class="painel" *ngIf="!success && !error; else other">
     <form class="row g-3" [formGroup]="customerForm">
       <h4>Dados Pessoias</h4>
       <hr />
@@ -10,6 +10,7 @@
           type="text"
           class="form-control"
           formControlName="nome_completo"
+          data-testid="nome_completo"
           [mask]="'S*'"
           [patterns]="customPatterns"
           (input)="this.errorMsgs.nome_completo = ''"
@@ -105,7 +106,20 @@
       </div>
       <div class="col-md-6">
         <label class="form-label">Senha</label>
-        <input type="password" class="form-control" formControlName="senha"  (input)="this.errorMsgs.senha= ''"/>
+        <div class="input-group">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            class="form-control" formControlName="senha"  
+            (input)="this.errorMsgs.senha= ''"
+            />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="showPassword = !showPassword"
+          >
+            {{ showPassword ? 'Esconder' : 'Mostrar' }}
+          </button>
+        </div>
         <small
           class="text-danger"
           *ngIf="errorMsgs.senha"
@@ -115,12 +129,22 @@
       </div>
       <div class="col-md-6">
         <label class="form-label">Confirme Senha</label>
-        <input
-          type="password"
-          class="form-control"
-          formControlName="senha_novamente"
-          (input)="this.errorMsgs.senha_novamente = ''"
-        />
+        <div class="input-group">
+          <input
+            [type]="showPasswordAgain ? 'text' : 'password'" 
+            class="form-control"
+            formControlName="senha_novamente"
+            (input)="this.errorMsgs.senha_novamente = ''"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="showPasswordAgain = !showPasswordAgain"
+          >
+          {{ showPasswordAgain ? 'Esconder' : 'Mostrar' }}
+        </button>
+
+        </div>
         <small
           class="text-danger"
           *ngIf="
@@ -178,8 +202,8 @@
           <option selected disabled value="">Escolha...</option>
           <option value="RUA">Rua</option>
           <option value="AVENIDA">Avenida</option>
-          <option value="RODOVIA">Praça</option>
-          <option value="JARDIM">Praça</option>
+          <option value="PRAÇA">Praça</option>
+          <option value="JARDIM">Jardim</option>
         </select>
         <small
           class="text-danger"
@@ -226,6 +250,45 @@
         </small>
       </div>
       <div class="col-md-4">
+        <label class="form-label">País</label>
+        <select class="form-select" formControlName="pais" (input)="this.errorMsgs['endereco_residencial.pais'] = ''">
+          <option selected disabled value="">Escolha...</option>
+          <option value="BR">Brasil</option>
+        </select>
+        <small
+          class="text-danger"
+          *ngIf="errorMsgs['endereco_residencial.pais']"
+        >
+          {{errorMsgs['endereco_residencial.pais']}}
+        </small>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Estado</label>
+        <select class="form-select" formControlName="estado" (change)="this.errorMsgs['endereco_residencial.estado'] = ''; onChangeEstado();">
+          <option selected disabled value="">Escolha...</option>
+          <option *ngFor="let estado of estadosIbge" [value]="estado.sigla">{{estado.nome}}</option>
+        </select>
+        <small
+          class="text-danger"
+          *ngIf="errorMsgs['endereco_residencial.estado']"
+        >
+          {{errorMsgs['endereco_residencial.estado']}}
+        </small>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Cidade</label>
+        <select class="form-select" formControlName="cidade" (input)="this.errorMsgs['endereco_residencial.cidade'] = ''">
+          <option selected disabled value="">Escolha...</option>
+          <option *ngFor="let cidade of cidadesUfIbge" [value]="cidade.nome">{{cidade.nome}}</option>
+        </select>
+        <small
+          class="text-danger"
+          *ngIf="errorMsgs['endereco_residencial.cidade']"
+        >
+          {{errorMsgs['endereco_residencial.cidade']}}
+        </small>
+      </div>
+      <div class="col-md-3">
         <label class="form-label">Bairro</label>
         <input
           type="text"
@@ -240,57 +303,6 @@
           *ngIf="errorMsgs['endereco_residencial.bairro']"
         >
           {{errorMsgs['endereco_residencial.bairro']}}
-        </small>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Cidade</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="cidade"
-          [mask]="'S*'"
-          [patterns]="customPatterns"
-          (input)="this.errorMsgs['endereco_residencial.cidade'] = ''"
-        />
-        <small
-          class="text-danger"
-          *ngIf="errorMsgs['endereco_residencial.cidade']"
-        >
-          {{errorMsgs['endereco_residencial.cidade']}}
-        </small>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Estado</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="estado"
-          [mask]="'S*'"
-          [patterns]="customPatterns"
-          (input)="this.errorMsgs['endereco_residencial.estado'] = ''"
-        />
-        <small
-          class="text-danger"
-          *ngIf="errorMsgs['endereco_residencial.estado']"
-        >
-          {{errorMsgs['endereco_residencial.estado']}}
-        </small>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">País</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="pais"
-          [mask]="'S*'"
-          [patterns]="customPatterns"
-          (input)="this.errorMsgs['endereco_residencial.pais'] = ''"
-        />
-        <small
-          class="text-danger"
-          *ngIf="errorMsgs['endereco_residencial.pais']"
-        >
-          {{errorMsgs['endereco_residencial.pais']}}
         </small>
       </div>
       <div class="col-md-3">
@@ -323,16 +335,22 @@
           class="btn btn-primary btn-lg w-25"
           type="button"
           (click)="onSubmit()"
+          *ngIf="!loading"
         >
           Cadastrar
+        </button>
+        <button
+          class="btn btn-primary btn-lg w-25"
+          type="button"
+          disabled="true"
+          *ngIf="loading"
+        >
+          Carregando...
         </button>
       </div>
     </form>
   </div>
   <ng-template #other class="painel">
-    <div *ngIf="loading">
-      <p>Carregando...</p>
-    </div>
     <div *ngIf="success">
       <div class="painel text-center">
         <p class="mb-4">Operação realizada com sucesso!</p>
@@ -346,7 +364,7 @@
     </div>
     <div *ngIf="error">
       <div class="painel text-center">
-        <p class="mb-4">Houve um erro!</p>
+        <p class="mb-4">Estamos com problemas em nossos serviços no momento! Tente novamente mais tarde.</p>
         <button
           class="btn btn-secondary btn-md"
           (click)="this.error = false;"

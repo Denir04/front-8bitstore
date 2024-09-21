@@ -5,6 +5,7 @@ import { AddressService } from 'src/app/services/address.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ErrorMsgsAddress } from 'src/app/models/errorMsgAdress';
+import { IbgeService } from 'src/app/services/external/ibge.service';
 
 @Component({
   selector: 'app-new-address',
@@ -18,6 +19,8 @@ export class NewAddressComponent implements OnInit {
   loading = false;
   success = false;
   error = false;
+  estadosIbge: any = [];
+  cidadesUfIbge: any = [];
   errorMsgs: ErrorMsgsAddress = {
     apelido: '',
     bairro: '',
@@ -36,10 +39,12 @@ export class NewAddressComponent implements OnInit {
     private addressService: AddressService,
     private formBuilder: FormBuilder,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private ibgeService: IbgeService
   ) {}
 
   ngOnInit(): void {
+    this.estadosIbge = this.ibgeService.getEstados();
     this.addressForm = this.formBuilder.group({
       apelido: ['', Validators.required],
       tipo_residencia: [null, Validators.required],
@@ -57,6 +62,16 @@ export class NewAddressComponent implements OnInit {
       residencial: [''],
     });
   }
+
+  onChangeEstado(){
+    this.ibgeService.getAllCidadesByUF(this.addressForm.get('estado')?.value).subscribe(
+      (res) => {
+        this.cidadesUfIbge = res.body
+      },
+      (err) => console.log(err)
+    )
+  }
+
 
   onSubmit() {
     this.loading = true;

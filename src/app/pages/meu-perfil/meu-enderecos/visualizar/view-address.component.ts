@@ -5,6 +5,7 @@ import { AddressService } from 'src/app/services/address.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMsgsAddress } from 'src/app/models/errorMsgAdress';
+import { IbgeService } from 'src/app/services/external/ibge.service';
 
 @Component({
   selector: 'app-view-address',
@@ -21,6 +22,8 @@ export class ViewAddressComponent implements OnInit {
   error = false;
   errorMsg = '';
   enderecoId: string = '';
+  estadosIbge: any = [];
+  cidadesUfIbge: any = [];
   errorMsgs: ErrorMsgsAddress = {
     apelido: '',
     bairro: '',
@@ -40,10 +43,12 @@ export class ViewAddressComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     private activedRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ibgeService: IbgeService
   ) {}
 
   ngOnInit(): void {
+    this.estadosIbge = this.ibgeService.getEstados();
     this.enderecoId = this.activedRouter.snapshot.paramMap.get('id') || '';
     this.addressService.getOneAddress('1', `${this.enderecoId}`).subscribe((address) => {
       this.addressForm = this.formBuilder.group({
@@ -62,7 +67,10 @@ export class ViewAddressComponent implements OnInit {
         entrega: [address.entrega],
         residencial: [address.residencial],
       });
-
+      if(address.residencial) this.addressForm.get('residencial')?.disable();
+      if(address.entrega) this.addressForm.get('entrega')?.disable();
+      if(address.cobranca) this.addressForm.get('cobranca')?.disable();
+      this.onChangeEstado();
       this.loading = false;
     });
   }
@@ -83,6 +91,15 @@ export class ViewAddressComponent implements OnInit {
         }
         this.loading = false;
       }
+    )
+  }
+
+  onChangeEstado(){
+    this.ibgeService.getAllCidadesByUF(this.addressForm.get('estado')?.value).subscribe(
+      (res) => {
+        this.cidadesUfIbge = res.body
+      },
+      (err) => console.log(err)
     )
   }
 
