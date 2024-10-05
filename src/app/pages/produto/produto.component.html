@@ -1,0 +1,43 @@
+<div class="container">
+    <p class="fs-4 mb-3">
+      <span role="button" (click)="goBack()"><< Voltar</span>
+    </p>
+    <div *ngIf="!loading; else other">
+    <h1 class="mb-3">{{productDetail.titulo}}</h1>
+    <div class="row my-card border py-4 px-4" (click)="this.success = false">
+        <div class="col-md-6">
+          <!-- Exibe a imagem do produto -->
+          <img [src]="productDetail.imagem" alt="{{ productDetail.titulo }}" class="img-fluid rounded">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-between">
+          <!-- Detalhes do Produto -->
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between border-bottom border-black">
+              <h3 class="fw-bold mb-3 fs-4">{{ productDetail.titulo }}</h3>
+              <span class="fs-3">R{{ productDetail.custo | currency:'USD' }}</span>
+            </div>
+            <p><strong class="fw-bold">ISBN:</strong> {{ productDetail.isbn }}</p>
+            <p><strong class="fw-bold">Ano:</strong> {{ productDetail.ano }}</p>
+            <p><strong class="fw-bold">Faixa Etária:</strong> {{ productDetail.faixa_etaria }}+</p>
+            <p><strong class="fw-bold">Máximo de Jogadores:</strong> {{ productDetail.max_jogadores }}</p>
+            <p class="mt-2"><strong class="fw-bold me-3">Categoria(s):</strong> <span *ngFor="let categoria of productDetail.categorias" class="categoria">{{categoria}}</span></p> 
+            <p class="mt-2"><strong class="fw-bold me-3">Plataforma:</strong><span *ngFor="let plataforma of productDetail.plataformas" class="plataforma">{{plataforma}}</span></p>
+            <p class="mt-2"><strong class="fw-bold me-3">Desenvolvedora:</strong><span *ngFor="let desenvolvedora of productDetail.desenvolvedoras" class="desenvolvedora">{{desenvolvedora}}</span></p>
+          </div>
+          <div class="mt-4 row">
+            <div *ngIf="success" class="d-flex justify-content-end">
+              <span class="mb-3 fs-5 fw-bold" style="color: #12761a;">Adicionado com sucesso!</span>
+            </div>
+            <div class="col">
+              <label for="quantity" class="form-label">Quantidade no carrinho</label>
+              <input data-testid="input-unit" type="number" class="form-control w-50" id="quantity" [(ngModel)]="productDetail.quantidade_carrinho" min="1" />
+            </div>
+            <button data-testid="id-btn-add-carrinho" class="col btn btn-secondary btn-lg" (click)="addCarrinho()">Adicionar ao Carrinho</button>
+        </div>
+        </div>
+      </div>
+    </div>
+      <ng-template #other>
+        <p *ngIf="loading" class="text-center">Carregando...</p>
+      </ng-template>
+</div>

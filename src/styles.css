@@ -192,3 +192,27 @@ ul.nav li a.active {
   border: 1px solid black;
   color: white;
 }
+
+.blur-background {
+  filter: blur(5px);
+}
+
+ .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-none {
+  display: none;
+}
+
+.modal-dialog {
+  max-width: 1200px;
+}

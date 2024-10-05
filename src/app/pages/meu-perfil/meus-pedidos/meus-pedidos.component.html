@@ -1,0 +1,61 @@
+<div class="container-lg">
+    <h1 class="mb-4">Meu Perfil</h1>
+    <div class="row">
+      <div class="col-3">
+        <ul class="nav flex-column painel">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/meu-perfil">Meu Dados Pessoais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/meu-perfil/enderecos">Meus Endereços</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link active" href="/meu-perfil/pedidos">Meus Pedidos</a>
+          </li>
+        </ul>
+      </div>
+      <section
+        *ngIf="!loading; else other"
+        class="col-8"
+        >
+        <p *ngIf="myPedidos.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum pedido realizado.</p>
+        <ul *ngIf="myPedidos.length > 0">
+          <li
+            class="painel mb-3"
+            *ngFor="let pedido of myPedidos"
+          >
+          <header class="row d-flex justify-content-between border-bottom border-black mb-2 pb-1">
+            <span class="col">#{{pedido.id}}</span>
+            <span class="col text-end fw-bold">{{pedido.status.replace('_', ' ') }}</span>
+          </header>
+          <article>
+            <div *ngFor="let produto of pedido.produtos" class="row align-items-center mb-3">
+              <img [src]="produto.imagem" alt="placeholder" style="width: 120px; height: 120px; object-fit: cover;"/>
+              <span class="col">{{ produto.titulo }}</span> 
+              <span class="col">Quantidade: {{ produto.quantidade }}</span> 
+              <span class="col text-end"> R{{ produto.preco | currency: 'USD' }}</span>
+              </div>
+          </article>
+          <footer class="row d-flex justify-content-start align-items-center border-top border-black pt-2">
+            <button class="col-2 btn btn-secondary" (click)="goToDetail(pedido.id)">
+              Detalhes
+            </button>
+            <p class="col-3 text-end ms-auto">
+              <span class="fw-bold">Frete: </span>R{{pedido.frete | currency: 'USD'}}
+            </p>
+            <p class="col-4 text-end">
+              <span class="fw-bold">Valor Final: </span>R{{pedido["valor_total"] | currency: 'USD' }}
+            </p>
+          </footer>
+          </li>
+        </ul>
+      </section>
+      <ng-template #other>
+        <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+      </ng-template> 
+    </div>
+  </div>
+  

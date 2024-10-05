@@ -1,0 +1,42 @@
+<div class="container-lg">
+    <p class="fs-5 mb-3" style="visibility: hidden;">
+        <span role="button"><< Voltar</span>
+      </p>
+    <h1 class="mb-4">Meu Carrinho</h1>
+    <div class="row d-flex justify-content-between" *ngIf="!loading; else other">
+        <section class="col-7">
+            <article *ngIf="detail.carrinho?.length == 0" class="painel">   
+                <p>Não possui nenhum item no carrinho :(</p>
+            </article>
+            <article 
+                *ngFor="let item of detail.carrinho"
+                class="painel d-flex mb-3 row align-items-center"
+            >
+                <img class="col" [src]="item.imagem" alt="placeholder" style="width: 120px; height: 120px; object-fit: cover;"/>
+                <p class="col fw-bold">{{item.titulo }}</p>
+                <p class="col">R{{item.preco | currency: 'USD' }}</p>
+                <div class="col row align-items-center">
+                    <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade - 1)">-</button>
+                    <p class="col text-center">{{item.quantidade }}</p>
+                    <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade + 1)">+</button>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <button class="btn btn-lg btn-danger" (click)="changeItem(item.id, 0)">Excluir</button>
+                </div>
+            </article>
+        </section>
+        <article class="col-4 painel d-flex flex-column info">
+            <div>
+                <h3 class="fs-4 fw-bold mb-2 border-bottom border-dark">Detalhes do Pedido</h3>
+                <div class="row">
+                    <span class="col">Total Itens</span>
+                    <span class="col text-end">R{{detail["valor-item-total"] | currency: 'USD' }}</span>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100 fs-5 mt-3" (click)="goToNextStep()" [disabled]="detail.carrinho?.length == 0">Avançar</button>
+        </article>
+    </div>
+    <ng-template #other>
+        <p>Carregando...</p>
+    </ng-template>
+</div>

@@ -14,6 +14,13 @@ import { ViewAddressComponent } from './pages/meu-perfil/meu-enderecos/visualiza
 import { NewAddressComponent } from './pages/meu-perfil/meu-enderecos/novo/new-address.component';
 import { MyCardsComponent } from './pages/meu-perfil/meu-cartoes/my-cards.component';
 import { NewCardComponent } from './pages/meu-perfil/meu-cartoes/novo/new-card.component';
+import { ProdutoComponent } from './pages/produto/produto.component';
+import { CarrinhoComponent } from './pages/carrinho/carrinho.component';
+import { EnderecoEntregaComponent } from './pages/carrinho/endereco-entrega/endereco-entrega.component';
+import { FormaPagamentoComponent } from './pages/carrinho/forma-pagamento/forma-pagamento.component';
+import { ResumoComponent } from './pages/carrinho/resumo/resumo.component';
+import { MeusPedidosComponent } from './pages/meu-perfil/meus-pedidos/meus-pedidos.component';
+import { PedidoDetalhesComponent } from './pages/meu-perfil/meus-pedidos/pedido-detalhes/pedido-detalhes.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +33,13 @@ import { NewCardComponent } from './pages/meu-perfil/meu-cartoes/novo/new-card.c
     NewAddressComponent,
     MyCardsComponent,
     NewCardComponent,
+    ProdutoComponent,
+    CarrinhoComponent,
+    EnderecoEntregaComponent,
+    FormaPagamentoComponent,
+    ResumoComponent,
+    MeusPedidosComponent,
+    PedidoDetalhesComponent,
   ],
   imports: [
     BrowserModule,

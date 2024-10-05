@@ -1,0 +1,76 @@
+<div class="container-lg">
+    <p class="fs-4 mb-3">
+        <span role="button" (click)="goBack()"><< Voltar</span>
+    </p>
+    <h1 class="mb-3" *ngIf="!loading && !success; else other">Detalhes Pedido #{{pedidoDetail.id}}</h1>
+    <section class="painel" *ngIf="!loading && !success; else other">
+        <h2 class="fw-bold fs-4">Produtos</h2>
+        <div class="produtos mb-4">
+            <ul>
+                <li *ngFor="let item of pedidoDetail['itens']" class="row align-items-center mb-3">
+                    <img [src]="item.imagem" alt="placeholder" style="width: 150px; height: 150px; object-fit: cover;"/>
+                    <span class="col">{{ item.titulo }}</span> 
+                    <span class="col">Quantidade: {{ item.quantidade }}</span> 
+                    <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
+                </li>
+            </ul>
+            <p class="row d-flex justify-content-end border-top border-black pt-3">
+                <span class="fw-bold col-2">Total dos itens: </span> 
+                <strong class="col-1 text-end">R{{ (pedidoDetail["valor_total"] - pedidoDetail['frete'] ) | currency: 'USD'  }}</strong></p>
+        </div>
+        <h2 class="fw-bold fs-4">Endereço de Cobrança</h2>
+        <div class="endereco-cobranca mb-4">
+            <p><strong>Apelido:</strong> {{ pedidoDetail['endereco_cobranca'].apelido }}</p>
+            <p><strong>Endereço:</strong> 
+                {{ pedidoDetail['endereco_cobranca'].tipo_logradouro }} {{ pedidoDetail['endereco_cobranca'].logradouro }}, 
+                {{ pedidoDetail['endereco_cobranca'].numero }}, 
+                {{ pedidoDetail['endereco_cobranca'].bairro }}, 
+                {{ pedidoDetail['endereco_cobranca'].cidade }}, 
+                {{ pedidoDetail['endereco_cobranca'].estado }}, 
+                {{ pedidoDetail['endereco_cobranca'].pais }}, 
+                CEP: {{ pedidoDetail['endereco_cobranca'].cep }}
+            </p>
+        </div>
+        <h2 class="fw-bold fs-4">Endereço de Entrega</h2>
+        <div class="endereco-entrega mb-4">
+            <p><strong>Apelido:</strong> {{ pedidoDetail['endereco_entrega'].apelido }}</p>
+            <p><strong>Endereço:</strong> 
+                {{ pedidoDetail['endereco_entrega'].tipo_logradouro }} {{ pedidoDetail['endereco_entrega'].logradouro }}, 
+                {{ pedidoDetail['endereco_entrega'].numero }}, 
+                {{ pedidoDetail['endereco_entrega'].bairro }}, 
+                {{ pedidoDetail['endereco_entrega'].cidade }}, 
+                {{ pedidoDetail['endereco_entrega'].estado }}, 
+                {{ pedidoDetail['endereco_entrega'].pais }}, 
+                CEP: {{ pedidoDetail['endereco_entrega'].cep }}
+            </p>
+           
+            <p class="row d-flex justify-content-end"><strong class="fw-bold col-2 text-start">Frete:</strong><span class="col-1 text-end">R{{ pedidoDetail['frete'] | currency: 'USD' }}</span></p>
+            
+            <p class="row d-flex justify-content-end border-top border-black pt-2"><span class="fw-bold col-2 text-start">Total dos itens(+ frete): </span> <strong class="col-1 text-end">R{{pedidoDetail["valor_total"]| currency: 'USD' }}</strong></p>
+        </div>
+        <h2 class="fw-bold fs-4">Forma de Pagamento</h2>
+        <div class="pagamento mb-4">
+            <ul>
+                <li *ngFor="let cartao of pedidoDetail['cartoes']" class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
+                    <p><strong>Cartão:</strong> {{ cartao.bandeira }} - Final {{ cartao.ultimos_numeros }}</p>
+                    <p>R{{ cartao.valor  | currency: 'USD' }}</p>
+                </li>
+            </ul>
+            <p *ngIf="pedidoDetail['cupom-promo']" class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
+                <strong>Cupom Promocional - {{ pedidoDetail['cupom-promo'].codigo }} </strong> 
+                <span>R{{ pedidoDetail['cupom-promo'].valor  | currency: 'USD' }}</span>
+            </p>
+            <ul>
+                <li *ngFor="let cupom of pedidoDetail['cupom-troca']">
+                    <p class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
+                        <strong>Cupom de Troca - {{ cupom.codigo }}</strong> 
+                        <span>R{{ cupom.valor  | currency: 'USD' }}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <ng-template #other>
+        <p *ngIf="loading">Carregando...</p>
+    </ng-template>
+</div>

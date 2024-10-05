@@ -1,0 +1,221 @@
+<div class="container-lg">
+    <div [ngClass]="{'blur-background': isModalOpen}">
+    <p class="fs-5 mb-3">
+      <span role="button" (click)="goBack()"><< Voltar</span>
+    </p>
+    <h1 class="mb-4">Selecione Forma de Pagamento</h1>
+    <div class="row d-flex justify-content-between" *ngIf="!loading; else other">
+        <section
+        *ngIf="!loading && !error; else other"
+        class="col-7"
+        >
+        <p *ngIf="myCards.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum cartão cadastrado.</p>
+        <ul *ngIf="myCards.length > 0">
+          <li
+            class="painel mb-3 d-flex justify-content-between align-items-center"
+            *ngFor="let card of myCards; let i = index"
+          >
+                <input
+                  type="checkbox"
+                  id="card-{{ i }}"
+                  class="form-check-input me-3 border-black"
+                  style="width: 45px; height: 45px;"
+                  (change)="handleChangeCheck(i)"
+                />
+            <div class="d-flex flex-column">
+              <p class="fs-4 fw-bold">
+                **** {{ card.numero_impresso }} {{ card.bandeira.toLocaleUpperCase() }}
+              </p>
+            </div>
+            <div class="d-flex align-items-center">
+                <label for="valor-pagamento-{{ i }}">R$:</label>
+                <input
+                  [disabled]="isSelected(i)"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="this.selectedCards[i].valor"
+                  id="valor-pagamento-{{ i }}"
+                  placeholder="Digite o valor"
+                />
+              </div>
+              <button class="btn btn-primary" [disabled]="isSelected(i)" (click)="sendPayment(i)">Adicionar</button>
+          </li>
+        </ul>
+        <button class="btn btn-primary" id="criar-cartao" (click)="openModal()">
+          Criar Novo Cartão
+        </button>
+      </section>
+        <article class="col-4 painel d-flex flex-column justify-content-between" *ngIf="!loadingDetail">
+            <div class="info">
+                <h3 class="fs-4 fw-bold mb-2 border-bottom border-dark">Detalhes do Pedido</h3>
+                <div class="row">
+                    <span class="col">Total Itens</span>
+                    <span class="col text-end">R{{detail["valor-item-total"] | currency: 'USD' }}</span>
+                </div>
+                <div class="row">
+                  <span class="col">Frete</span>
+                  <span class="col text-end">R{{detail.frete | currency: 'USD' }}</span>
+                </div>
+                <div class="row border-black border-top mb-4">
+                  <span class="col fw-bold">Custo Total</span>
+                  <span class="col text-end">R{{detail.frete + detail["valor-item-total"]| currency: 'USD' }}</span>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12">Adicionar Cupom</label>
+                  <input class="col-8" [(ngModel)]="cupomText" (ngModelChange)="this.errorTicketMsg = ''" type="text"/>
+                  <button class="col-4 btn btn-primary" (click)="selectTicket()">Adicionar</button>
+                </div>
+                <p *ngIf="this.errorTicketMsg" class="alert-text">
+                  <span>{{this.errorTicketMsg}}</span>
+                </p>
+                <div *ngIf="detail['cupom-promo']?.id" class="row">
+                    <span class="col-5">{{detail['cupom-promo']?.codigo}}</span>
+                    <span class="col-3 fw-1" style="color: red;" (click)="removeTicket(detail['cupom-promo'].codigo)" > (remover)</span>
+                    <span class="col-4 text-end">R{{detail['cupom-promo']?.valor | currency: 'USD'}}</span>
+                </div>
+                <div *ngIf="detail['cupom-troca']?.length > 0" >
+                  <div *ngFor="let cupomTroca of detail['cupom-troca']" class="row">
+                    <span class="col-5">{{cupomTroca.codigo}}</span>
+                    <span class="col-3 fw-1" style="color: red;" (click)="removeTicket(cupomTroca.codigo)" role="button"> (remover)</span>
+                    <span class="col-4 text-end">R{{cupomTroca.valor | currency: 'USD'}}</span>
+                  </div>
+                </div>
+                <div *ngIf="detail.cartoes?.length > 0">
+                  <div *ngFor="let cartao of detail.cartoes "class="row">
+                    <span class="col-5 d-flex">{{cartao.bandeira}}-{{cartao.ultimos_numeros}}</span>
+                    <span class="col-3 fw-1" style="color: red;" (click)="removerCard(cartao.id)" role="button"> (remover)</span>
+                    <span class="col-4 text-end">R{{cartao.valor | currency: 'USD' }}</span>
+                  </div>
+                </div>
+                <div class="row border-black border-top">
+                  <span class="col fw-bold">Pagamento Total</span>
+                  <span class="col text-end">R{{detail["pagamento-total"]| currency: 'USD' }}</span>
+                </div>
+                <p *ngIf="detail['diferenca'] > 0" class="alert-text">
+                  <span>Está faltando no pagamento: </span>
+                  <span>R{{detail["diferenca"] | currency: 'USD'}}</span>
+                </p>
+                <p *ngIf="detail['diferenca'] < 0" class="alert-text">
+                  <span>Está sobrando no pagamento: </span>
+                  <span>R{{valueAbsulote(detail["diferenca"]) | currency: 'USD'}}</span>
+                </p>
+                <p *ngIf="detail['mensagem_erro']" class="alert-text">
+                  <span>{{detail['mensagem_erro']}}</span>
+                </p>
+            </div>
+            <div class="row gap-4">
+              <button class="btn btn-secondary fs-5 col" (click)="goBack()">Voltar</button>
+              <button 
+                class="btn btn-primary fs-5 col" 
+                (click)="goToNextStep()"
+                [disabled]="this.detail['diferenca'] !== 0"
+              >
+                Avançar
+              </button>
+            </div>
+        </article>
+      </div>
+    </div>
+    <div class="modal fade show d-block" tabindex="-1" [ngClass]="{'d-none': !isModalOpen}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Novo Cartão de Crédito</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+          </div>
+          <div class="modal-body">
+            <form
+          class="row g-3"
+          [formGroup]="creditCardForm"
+          *ngIf="!loading && !success && !error; else other"
+        >
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label class="form-label">Número Impresso</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="numero_impresso"
+              mask="0000.0000.0000.0000"
+              placeholder="0000.0000.0000.0000"
+              (input)="this.errorMsg.numero_impresso = ''"
+              />
+            <small
+              class="text-danger"
+              *ngIf="this.errorMsg.numero_impresso"
+            >
+              {{this.errorMsg.numero_impresso}}
+            </small>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">Nome Impresso</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nome_impresso"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+            (input)="this.errorMsg.nome_impresso = ''"
+          />
+          <small
+            class="text-danger"
+            *ngIf="this.errorMsg.nome_impresso"
+          >
+            {{this.errorMsg.nome_impresso}}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Bandeira</label>
+          <select class="form-select" formControlName="bandeira" (input)="this.errorMsg.bandeira = ''">
+            <option selected disabled value="">Escolha...</option>
+            <option value="visa">Visa</option>
+            <option value="mastercard">Mastercard</option>
+            <option value="amex">American Express</option>
+            <option value="elo">Elo</option>
+          </select>
+          <small
+            class="text-danger"
+            *ngIf="this.errorMsg.bandeira"
+          >
+            {{this.errorMsg.bandeira}}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">CVV</label>
+          <input
+            type="text"
+            class="form-control"
+            mask="000"
+            formControlName="cvv"
+            (input)="this.errorMsg.cvv = ''"
+            id="cvv"
+          />
+          <small
+            class="text-danger"
+            *ngIf="this.errorMsg.cvv"
+          >
+            {{this.errorMsg.cvv}}
+          </small>
+        </div>
+      </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+            <button 
+              type="button" 
+              class="btn btn-primary" 
+              (click)="onSubmit()"
+              [disabled]="loadingForm"
+            >
+              {{loadingForm ? "Carregando..." : "Salvar Cartão"}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #other>
+        <p>Carregando...</p>
+    </ng-template>
+</div>

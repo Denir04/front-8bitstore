@@ -1,0 +1,34 @@
+.my-card{
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.my-card img{
+    height: 500px;
+    border: 2px #b6b6b6 solid;
+    border-radius: 5px;
+}
+
+.my-card .categoria{
+    background-color: #d1a323;
+    border-radius: 8px;
+    padding: 3px 8px;
+    color: white;
+    margin-right: 5px;
+}
+
+.my-card .plataforma{
+    background-color: #19336f;
+    border-radius: 8px;
+    padding: 3px 8px;
+    color: white;
+    margin-right: 5px;
+}
+
+.my-card .desenvolvedora{
+    background-color: #8f1b13;
+    border-radius: 8px;
+    padding: 3px 8px;
+    color: white;
+    margin-right: 5px;
+}

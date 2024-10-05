@@ -1,34 +1,74 @@
 <div class="container-lg">
-  <h1 class="mb-4">Meu Perfil</h1>
-  <div class="row">
-    <div class="col-3">
-      <ul class="nav flex-column painel">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/meu-perfil"
-            >Meu Dados Pessoais</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/meu-perfil/enderecos"
-            >Meus Endereços</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
-        </li>
-        <li class="nav-item"> 
-          <a class="nav-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
-        </li>
-      </ul>
+    <div class="blur" [ngClass]="{'blur-background': isModalOpen}">
+    <p class="fs-5 mb-3">
+      <span role="button" (click)="goBack()"><< Voltar</span>
+    </p>
+    <h1 class="mb-4">Selecione Endereço de Entrega</h1>
+    <div class="row d-flex justify-content-between" *ngIf="!loading; else other">
+        <section class="col-7">
+          <ul>
+            <li
+              class="painel mb-3 d-flex align-items-center"
+              *ngFor="let address of myAddresses; let i = index"
+            >
+              <input
+                type="radio"
+                name="selectedAddress"
+                style="height: 40px; width: 40px;"
+                [(ngModel)]="selectedAddress"
+                [value]="address"
+                [checked]="address.entrega"
+                id="address-{{ i }}"
+                class="form-check-input me-3"
+                (change)="changeAddress(address.id)"
+              />
+              <div class="d-flex flex-column">
+                <label for="address-{{ i }}" class="form-check-label">
+                  <p class="fs-4 fw-bold">{{ address.apelido }}</p>
+                </label>
+                <div class="mt-4">
+                  <span class="tag me-2" *ngIf="address.entrega">Entrega</span>
+                  <span class="tag me-2" *ngIf="address.cobranca">Cobrança</span>
+                  <span class="tag me-2" *ngIf="address.residencial">Residencial</span>
+                </div>
+              </div>
+            </li>
+            <button class="btn btn-primary" (click)="openModal()">
+              Criar Novo Endereço
+            </button>
+          </ul>
+        </section>
+        <article class="col-4 painel d-flex flex-column justify-content-between">
+            <div class="info">
+                <h3 class="fs-4 fw-bold mb-2 border-bottom border-dark">Detalhes do Pedido</h3>
+                <div class="row">
+                    <span class="col">Total Itens</span>
+                    <span class="col text-end">R{{detail["valor-item-total"] | currency: 'USD' }}</span>
+                </div>
+                <div class="row">
+                  <span class="col">Frete</span>
+                  <span class="col text-end">R{{detail.frete | currency: 'USD' }}</span>
+              </div>
+            </div>
+            <div class="row gap-4">
+              <button class="btn btn-secondary fs-5 col" (click)="goBack()">Voltar</button>
+              <button class="btn btn-primary fs-5 col" (click)="goToNextStep()">Avançar</button>
+            </div>
+        </article>
+      </div>
     </div>
-    <div class="col-8">
-      <form
-        class="row g-3 painel"
-        [formGroup]="addressForm"
-        *ngIf="!loading && !success; else other"
-      >
-        <h4>Endereço Residencial</h4>
-        <hr />
+    <div class="modal fade show d-block" tabindex="-1" [ngClass]="{'d-none': !isModalOpen}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Novo Endereço de Entrega</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+          </div>
+          <div class="modal-body">
+          <form
+            class="row g-3"
+            [formGroup]="addressForm"
+          >
         <div class="row mt-3">
           <div class="col-md-4">
             <label class="form-label">Apelido</label>
@@ -246,39 +286,23 @@
             </label>
           </div>
         </div>
-        <div class="col-12 mt-4 d-flex justify-content-between">
-          <button class="btn btn-secondary btn-lg w-20" type="button" (click)="onBack()">
-            Voltar
-          </button>
-          <div>
-            <button
-              class="btn btn-primary btn-lg w-20 me-3"
-              type="submit"
+      </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+            <button 
+              type="button" 
+              class="btn btn-primary" 
               (click)="onSubmit()"
+              [disabled]="loadingForm"
             >
-              Criar
+              {{loadingForm ? "Carregando..." : "Salvar Endereço"}}
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-  <div class="col-8">
     <ng-template #other>
-      <div *ngIf="loading">
         <p>Carregando...</p>
-      </div>
-      <div *ngIf="success">
-        <div class="painel text-center">
-          <p class="mb-4">Operação realizada com sucesso!</p>
-          <button
-            class="btn btn-secondary btn-md"
-            (click)="this.success = false; onBack()"
-          >
-            OK
-          </button>
-        </div>
-      </div>
     </ng-template>
-  </div>
 </div>
