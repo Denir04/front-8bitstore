@@ -4,7 +4,10 @@
     </p>
     <h1 class="mb-3" *ngIf="!loading && !success; else other">Detalhes Pedido #{{pedidoDetail.id}}</h1>
     <section class="painel" *ngIf="!loading && !success; else other">
-        <h2 class="fw-bold fs-4">Produtos</h2>
+        <div class="d-flex justify-content-between border-bottom border-black mb-3">
+            <h2 class="fw-bold fs-4">Produtos</h2>
+            <span><strong class="fw-bold">Data Pedido:  </strong>{{pedidoDetail.data_criacao}}</span>
+        </div>
         <div class="produtos mb-4">
             <ul>
                 <li *ngFor="let item of pedidoDetail['itens']" class="row align-items-center mb-3">

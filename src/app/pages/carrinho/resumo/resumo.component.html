@@ -41,9 +41,9 @@
                 CEP: {{ detail['endereco-entrega'].cep }}
             </p>
            
-            <p class="row d-flex justify-content-end"><strong class="fw-bold col-2 text-start">Frete:</strong><span class="col-1 text-end">R{{ detail['frete']/100 | currency: 'USD' }}</span></p>
+            <p class="row d-flex justify-content-end"><strong class="fw-bold col-2 text-start">Frete:</strong><span class="col-1 text-end">R{{ detail['frete'] | currency: 'USD' }}</span></p>
             
-            <p class="row d-flex justify-content-end border-top border-black pt-2"><span class="fw-bold col-2 text-start">Total dos itens(+ frete): </span> <strong class="col-1 text-end">R{{detail.frete / 100 + detail["valor-item-total"]| currency: 'USD' }}</strong></p>
+            <p class="row d-flex justify-content-end border-top border-black pt-2"><span class="fw-bold col-2 text-start">Total dos itens(+ frete): </span> <strong class="col-1 text-end">R{{detail.frete + detail["valor-item-total"]| currency: 'USD' }}</strong></p>
         </div>
         <h2 class="fw-bold fs-4">Forma de Pagamento</h2>
         <div class="pagamento mb-4">
@@ -75,6 +75,7 @@
             <button class="btn btn-secondary btn-lg" (click)="goBack()">Voltar</button>
             <button 
                 class="btn btn-primary btn-lg ms-3" 
+                id="btn-finalizar"
                 (click)="finalizarPedido()"
                 [disabled]="this.loadingButton"
             >
@@ -90,6 +91,7 @@
                 <button
                 class="btn btn-secondary btn-md"
                 (click)="this.success = false; goToMyPedidos()"
+                id="btn-success-ok"
                 >
                 OK
                 </button>

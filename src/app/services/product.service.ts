@@ -15,6 +15,14 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl, {observe: "response"});
   }
 
+  getAllProductsQuery(query: string):Observable<HttpResponse<any>>{
+    return this.http.get<Product[]>(`${this.apiUrl}?${query}`, { observe: "response"});
+  }
+
+  getProductsMetadados():Observable<HttpResponse<any>>{
+    return this.http.get<any>(`${this.apiUrl}/metadados`, {observe:'response'});
+  }
+
   getProductDetail(id: number):Observable<HttpResponse<any>>{
     return this.http.get<ProductDetail>(`${this.apiUrl}/detalhes?id=${id}`, {observe: 'response', withCredentials: true});
   }

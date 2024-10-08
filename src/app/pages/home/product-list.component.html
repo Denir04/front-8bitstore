@@ -1,9 +1,178 @@
 <div class="container">
     <h1 class="fs-1 mb-3">Produtos</h1>
-    <section>
+    <form class="painel mb-4" [formGroup]="productForm" (submit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="isbn" class="form-label fw-bold">ISBN</label>
+          <input
+            type="text"
+            class="form-control"
+            id="isbn"
+            inputmode="numeric"
+            formControlName="isbn"
+          />
+        </div>
+        <div class="col-md-5">
+          <label for="titulo" class="form-label fw-bold">Titulo</label>
+          <input
+            type="text"
+            class="form-control"
+            id="titulo"
+            formControlName="titulo"
+            [mask]="'S*'"
+            [patterns]="customPatterns"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="custoMin" class="form-label fw-bold"
+            >Preço Min.</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="custoMin"
+            formControlName="custoMin"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="custoMax" class="form-label fw-bold"
+            >Preço Max.</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="custoMax"
+            formControlName="custoMax"
+            inputmode="numeric"
+          />
+        </div>
+      </div>
+      <div class="row mt-2 pb-4 border-bottom border-black">
+        <div class="col-md-2">
+          <label for="anoMin" class="form-label fw-bold">Ano Min.</label>
+          <input
+            type="text"
+            class="form-control"
+            id="anoMin"
+            formControlName="anoMin"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="anoMax" class="form-label fw-bold">Ano Max.</label>
+          <input
+            type="text"
+            class="form-control"
+            id="anoMax"
+            formControlName="anoMax"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="faixaEtariaMin" class="form-label fw-bold">Faixa Etaria Min.</label>
+          <input
+            type="text"
+            class="form-control"
+            id="faixaEtariaMin"
+            formControlName="faixaEtariaMin"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="faixaEtariaMax" class="form-label fw-bold">Faixa Etaria Max.</label>
+          <input
+            type="text"
+            class="form-control"
+            id="faixaEtariaMax"
+            formControlName="faixaEtariaMax"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="minJogadores" class="form-label fw-bold">Min. Jogadores</label>
+          <input
+            type="text"
+            class="form-control"
+            id="minJogadores"
+            formControlName="minJogadores"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="maxJogadores" class="form-label fw-bold">Max. Jogadores</label>
+          <input
+            type="text"
+            class="form-control"
+            id="maxJogadores"
+            formControlName="maxJogadores"
+            inputmode="numeric"
+          />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <label class="form-label fw-bold">Categorias</label>
+          <div class="d-flex align-items-center gap-3">
+            <div *ngFor="let categoria of categoriasList" class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [id]="'categoria'+categoria.id"
+                (change)="onSelectionChange($event, categoria.id, 'categorias')"
+              />
+              <label class="form-check-label" [htmlFor]="'categoria'+categoria.id">{{ categoria.nome }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <label class="form-label fw-bold">Plataformas</label>
+          <div class="d-flex align-items-center gap-3">
+            <div *ngFor="let plataforma of plataformasList" class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [id]="'plataforma'+plataforma.id"
+                (change)="onSelectionChange($event, plataforma.id, 'plataformas')"
+              />
+              <label class="form-check-label" [htmlFor]="'plataforma'+plataforma.id">{{ plataforma.nome }}</label>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row mt-3">  
+      <div class="col-12">
+        <label class="form-label fw-bold">Desenvolvedoras</label>
+        <div class="d-flex align-items-center gap-3">
+          <div *ngFor="let desenvolvedora of desenvolvedorasList" class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [id]="'desenvolvedora'+desenvolvedora.id"
+              (change)="onSelectionChange($event, desenvolvedora.id, 'desenvolvedoras')"
+            />
+            <label class="form-check-label" [htmlFor]="'desenvolvedora'+desenvolvedora.id">{{ desenvolvedora.nome }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="mt-3 col d-flex align-items-end justify-content-end">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button
+          type="button"
+          class="btn btn-secondary ms-3"
+          (click)="onClear()"
+        >
+          Limpar
+        </button>
+      </div>
+    </form>
+    <section *ngIf="!loading; else other">
         <div class="row">
             <div class="col-md-3" *ngFor="let product of products">
-              <div data-testid="id-product-item" class="card mb-4 shadow-sm" role="button" (click)="goToDetail(product.id)" >
+              <div [id]="'product-'+product.id" class="card mb-4 shadow-sm" role="button" (click)="goToDetail(product.id)" >
                 <img [src]="product.imagem" alt="{{ product.titulo }}" class="card-img-top">
                 <div class="card-body">
                   <h5 class="card-title">{{ product.titulo }}</h5>
@@ -13,4 +182,7 @@
             </div>
           </div>
     </section>
+    <ng-template #other>
+      <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+    </ng-template> 
 </div>

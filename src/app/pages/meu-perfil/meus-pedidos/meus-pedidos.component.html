@@ -27,9 +27,10 @@
             class="painel mb-3"
             *ngFor="let pedido of myPedidos"
           >
-          <header class="row d-flex justify-content-between border-bottom border-black mb-2 pb-1">
-            <span class="col">#{{pedido.id}}</span>
-            <span class="col text-end fw-bold">{{pedido.status.replace('_', ' ') }}</span>
+          <header class="row border-bottom border-black mb-2 pb-1">
+            <p class="col">#{{pedido.id}}</p>
+            <p class="col text-end"><strong class="fw-bold">Data Pedido:</strong> {{pedido.data_criacao}}</p>
+            <p class="col text-end fw-bold">{{pedido.status.replace('_', ' ') }}</p>
           </header>
           <article>
             <div *ngFor="let produto of pedido.produtos" class="row align-items-center mb-3">

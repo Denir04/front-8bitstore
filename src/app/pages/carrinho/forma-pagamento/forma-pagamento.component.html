@@ -38,7 +38,7 @@
                   placeholder="Digite o valor"
                 />
               </div>
-              <button class="btn btn-primary" [disabled]="isSelected(i)" (click)="sendPayment(i)">Adicionar</button>
+              <button id="btn-valor-{{i}}" class="btn btn-primary" [disabled]="isSelected(i)" (click)="sendPayment(i)">Adicionar</button>
           </li>
         </ul>
         <button class="btn btn-primary" id="criar-cartao" (click)="openModal()">
@@ -62,8 +62,8 @@
                 </div>
                 <div class="row mb-3">
                   <label class="col-12">Adicionar Cupom</label>
-                  <input class="col-8" [(ngModel)]="cupomText" (ngModelChange)="this.errorTicketMsg = ''" type="text"/>
-                  <button class="col-4 btn btn-primary" (click)="selectTicket()">Adicionar</button>
+                  <input data-testid="input-cupom" class="col-8" [(ngModel)]="cupomText" (ngModelChange)="this.errorTicketMsg = ''" type="text"/>
+                  <button data-testid="btn-add-cupom" class="col-4 btn btn-primary" (click)="selectTicket()">Adicionar</button>
                 </div>
                 <p *ngIf="this.errorTicketMsg" class="alert-text">
                   <span>{{this.errorTicketMsg}}</span>
@@ -109,6 +109,7 @@
                 class="btn btn-primary fs-5 col" 
                 (click)="goToNextStep()"
                 [disabled]="this.detail['diferenca'] !== 0"
+                id="btn-avancar"
               >
                 Avançar
               </button>
