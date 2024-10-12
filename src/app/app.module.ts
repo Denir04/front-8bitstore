@@ -21,6 +21,7 @@ import { FormaPagamentoComponent } from './pages/carrinho/forma-pagamento/forma-
 import { ResumoComponent } from './pages/carrinho/resumo/resumo.component';
 import { MeusPedidosComponent } from './pages/meu-perfil/meus-pedidos/meus-pedidos.component';
 import { PedidoDetalhesComponent } from './pages/meu-perfil/meus-pedidos/pedido-detalhes/pedido-detalhes.component';
+import { MinhasTrocasComponent } from './pages/meu-perfil/minhas-trocas/minhas-trocas.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PedidoDetalhesComponent } from './pages/meu-perfil/meus-pedidos/pedido-
     ResumoComponent,
     MeusPedidosComponent,
     PedidoDetalhesComponent,
+    MinhasTrocasComponent,
   ],
   imports: [
     BrowserModule,

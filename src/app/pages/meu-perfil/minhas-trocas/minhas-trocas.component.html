@@ -13,10 +13,10 @@
             <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link active" href="/meu-perfil/pedidos">Meus Pedidos</a>
+            <a class="nav-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas</a>
+            <a class="nav-link active" href="/meu-perfil/trocas">Minhas Trocas</a>
           </li>
           <li class="nav-item"> 
             <a class="nav-link" href="/meu-perfil/cupom">Meus Cupons</a>
@@ -27,34 +27,34 @@
         *ngIf="!loading; else other"
         class="col-8"
         >
-        <p *ngIf="myPedidos.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum pedido realizado.</p>
-        <ul *ngIf="myPedidos.length > 0">
+        <p *ngIf="myTrocas.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum pedido de troca.</p>
+        <ul *ngIf="myTrocas.length > 0">
           <li
             class="painel mb-3"
-            *ngFor="let pedido of myPedidos"
+            *ngFor="let troca of myTrocas"
           >
           <header class="row border-bottom border-black mb-2 pb-1">
-            <p class="col">#{{pedido.id}}</p>
-            <p class="col text-end"><strong class="fw-bold">Data Pedido:</strong> {{pedido.data_criacao}}</p>
-            <p class="col text-end fw-bold">{{pedido.status.replace('_', ' ') }}</p>
+            <p class="col">#{{troca.id}}</p>
+            <p class="col text-end"><strong class="fw-bold">Data Pedido:</strong> {{troca.dataCriacao}}</p>
+            <p class="col text-end fw-bold">{{troca.status.replace('_', ' ') }}</p>
           </header>
           <article>
-            <div *ngFor="let produto of pedido.produtos" class="row align-items-center mb-3">
+            <div *ngFor="let produto of troca.produtosTroca" class="row align-items-center mb-3">
               <img [src]="produto.imagem" alt="placeholder" style="width: 120px; height: 120px; object-fit: cover;"/>
               <span class="col">{{ produto.titulo }}</span> 
               <span class="col">Quantidade: {{ produto.quantidade }}</span> 
               <span class="col text-end"> R{{ produto.preco | currency: 'USD' }}</span>
               </div>
           </article>
-          <footer class="row d-flex justify-content-start align-items-center border-top border-black pt-2">
-            <button class="col-2 btn btn-secondary" (click)="goToDetail(pedido.id)">
-              Detalhes
+          <footer class="row d-flex justify-content-between align-items-center border-top border-black pt-2">
+            <button *ngIf="troca.status === 'TROCA_SOLICITADA'" class="col-2 btn btn-danger">
+              Cancelar
             </button>
-            <p class="col-3 text-end ms-auto">
-              <span class="fw-bold">Frete: </span>R{{pedido.frete | currency: 'USD'}}
-            </p>
+            <button *ngIf="troca.status !== 'TROCA_SOLICITADA'" class="col-2 btn btn-danger" style="visibility: hidden;">
+                Cancelar
+            </button>
             <p class="col-4 text-end">
-              <span class="fw-bold">Valor Final: </span>R{{pedido["valor_total"] | currency: 'USD' }}
+              <span class="fw-bold">Valor Final: </span>R{{troca["valorTotal"] | currency: 'USD' }}
             </p>
           </footer>
           </li>
