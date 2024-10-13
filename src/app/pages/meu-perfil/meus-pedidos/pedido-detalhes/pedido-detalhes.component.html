@@ -22,7 +22,7 @@
                     <span class="fw-bold col-2">Total dos itens: </span> 
                     <strong class="col-1 text-end">R{{ (pedidoDetail["valor_total"] - pedidoDetail['frete'] ) | currency: 'USD'  }}</strong></p>
             </div>
-            <button class="btn btn-secondary mb-4" (click)="openModal()">Solicitar uma Troca</button>
+            <button *ngIf="pedidoDetail['status'] === 'ENTREGUE'" class="btn btn-secondary mb-4" (click)="openModal()">Solicitar uma Troca</button>
             <h2 class="fw-bold fs-4">Endereço de Cobrança</h2>
             <div class="endereco-cobranca mb-4">
                 <p><strong>Apelido:</strong> {{ pedidoDetail['endereco_cobranca'].apelido }}</p>
@@ -57,13 +57,13 @@
             <div class="pagamento mb-4">
                 <ul>
                     <li *ngFor="let cartao of pedidoDetail['cartoes']" class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
-                        <p><strong>Cartão:</strong> {{ cartao.bandeira }} - Final {{ cartao.ultimos_numeros }}</p>
+                        <p><strong>Cartão:</strong> {{ cartao.bandeira }} - Final {{ cartao.ultimosNumero }}</p>
                         <p>R{{ cartao.valor  | currency: 'USD' }}</p>
                     </li>
                 </ul>
-                <p *ngIf="pedidoDetail['cupom-promo']" class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
-                    <strong>Cupom Promocional - {{ pedidoDetail['cupom-promo'].codigo }} </strong> 
-                    <span>R{{ pedidoDetail['cupom-promo'].valor  | currency: 'USD' }}</span>
+                <p *ngIf="pedidoDetail['cupom_promocional']" class="d-flex justify-content-between border-bottom border-black mb-2 mt-3">
+                    <strong>Cupom Promocional - {{ pedidoDetail['cupom_promocional'].codigo }} </strong> 
+                    <span>R{{ pedidoDetail['cupom_promocional'].valor  | currency: 'USD' }}</span>
                 </p>
                 <ul>
                     <li *ngFor="let cupom of pedidoDetail['cupom-troca']">

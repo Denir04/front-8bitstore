@@ -7,6 +7,7 @@ import { Customer } from '../models/customer';
   providedIn: 'root',
 })
 export class CustomerService {
+  private clienteId: string = '2';
   apiUrl: string = 'http://localhost:8080/cliente';
 
   constructor(private http: HttpClient) {}
@@ -15,9 +16,9 @@ export class CustomerService {
     return this.http.post(`${this.apiUrl}`, newCustomer, {observe: 'response'})
   }
 
-  getPersonalData(id: string): Observable<Customer> {
+  getPersonalData(): Observable<Customer> {
     return this.http.get<Customer>(
-      `${this.apiUrl}/visualizar?clienteId=${id}`
+      `${this.apiUrl}/visualizar?clienteId=${this.getClienteId()}`
     );
   }
 
@@ -27,5 +28,13 @@ export class CustomerService {
 
   updatePassword(customerUp: Customer):Observable<HttpResponse<any>>{
     return this.http.put(`${this.apiUrl}/senha`,customerUp, {observe: 'response'});
+  }
+
+  setClienteId(id: string): void {
+    this.clienteId = id;
+  }
+
+  getClienteId(): string {
+    return this.clienteId;
   }
 }

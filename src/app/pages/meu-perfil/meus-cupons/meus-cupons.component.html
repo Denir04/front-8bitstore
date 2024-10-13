@@ -1,0 +1,51 @@
+<div class="container-lg">
+    <h1 class="mb-4">Meu Perfil</h1>
+    <div class="row">
+      <div class="col-3">
+        <ul class="nav flex-column painel">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/meu-perfil">Meu Dados Pessoais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/meu-perfil/enderecos">Meus Endereços</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link active" href="/meu-perfil/cupom">Meus Cupons</a>
+          </li>
+        </ul>
+      </div>
+      <section
+      *ngIf="!loading; else other"
+      class="col-8"
+      >
+      <p *ngIf="myCupons.length <= 0" class="painel text-center py-5 mb-3">Você não possui nenhum cartão cadastrado.</p>
+      <ul *ngIf="myCupons.length > 0">
+        <li
+          class="painel mb-3 d-flex justify-content-between align-items-center"
+          *ngFor="let cupom of myCupons"
+        >
+          <div class="d-flex flex-column">
+            <p>Código</p>
+            <p class="fs-4 fw-bold">
+              {{ cupom.codigo }}
+            </p>
+          </div>
+          <p class="fs-3">R$ {{cupom.valor}}</p>
+        </li>
+      </ul>
+    </section>
+      <ng-template #other>
+        <p *ngIf="loading" class="col-8 painel text-center">Carregando...</p>
+      </ng-template> 
+    </div>
+  </div>
+  

@@ -2,22 +2,26 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreditCard } from '../models/credit-card';
+import { CustomerService } from './customer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreditCardService {
   private apiUrl: string = 'http://localhost:8080/cartao';
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private customerService: CustomerService
+  ) {}
 
   getAllCreditCard(id: string): Observable<HttpResponse<any>> {
-    return this.http.get(`${this.apiUrl}?clienteId=${id}`, {
+    return this.http.get(`${this.apiUrl}?clienteId=${this.customerService.getClienteId()}`, {
       observe: 'response',
     });
   }
 
   postNewCreditCard(newCreditCard: CreditCard, id: string): Observable<HttpResponse<any>> {
-    return this.http.post(`${this.apiUrl}?clienteId=${id}`, newCreditCard, {
+    return this.http.post(`${this.apiUrl}?clienteId=${this.customerService.getClienteId()}`, newCreditCard, {
       observe: 'response',
     });
   }
@@ -27,7 +31,7 @@ export class CreditCardService {
     customerId: number
   ): Observable<HttpResponse<any>> {
     return this.http.delete(
-      `${this.apiUrl}?clienteId=${customerId}&cartaoId=${cardId}`,
+      `${this.apiUrl}?clienteId=${this.customerService.getClienteId()}&cartaoId=${cardId}`,
       { observe: 'response' }
     );
   }
@@ -37,7 +41,7 @@ export class CreditCardService {
     customerId: number
   ): Observable<HttpResponse<any>> {
     return this.http.put(
-      `${this.apiUrl}?clienteId=${customerId}&cartaoId=${cardId}`,
+      `${this.apiUrl}?clienteId=${this.customerService.getClienteId()}&cartaoId=${cardId}`,
       null,
       { observe: 'response' }
     );

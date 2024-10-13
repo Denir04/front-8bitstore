@@ -50,7 +50,7 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.customerService.getPersonalData('1').subscribe((customerBack) => {
+    this.customerService.getPersonalData().subscribe((customerBack) => {
       this.customerId = customerBack.id;
       this.customerForm = this.formBuilder.group({
         nome_completo: [customerBack.nome_completo, Validators.required],

@@ -105,7 +105,7 @@ export class EnderecoEntregaComponent implements OnInit {
       }
     )
 
-    this.addressService.getAllAddress('1').subscribe((addressesBack) => {
+    this.addressService.getAllAddress().subscribe((addressesBack) => {
       this.myAddresses = addressesBack;
       this.selectedAddress = this.myAddresses.find(address => address.entrega);
       this.carrinhoService.selectAddress(this.selectedAddress.id).subscribe(

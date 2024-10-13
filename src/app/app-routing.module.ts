@@ -16,6 +16,7 @@ import { ResumoComponent } from './pages/carrinho/resumo/resumo.component';
 import { MeusPedidosComponent } from './pages/meu-perfil/meus-pedidos/meus-pedidos.component';
 import { PedidoDetalhesComponent } from './pages/meu-perfil/meus-pedidos/pedido-detalhes/pedido-detalhes.component';
 import { MinhasTrocasComponent } from './pages/meu-perfil/minhas-trocas/minhas-trocas.component';
+import { MeusCuponsComponent } from './pages/meu-perfil/meus-cupons/meus-cupons.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'meu-perfil/cartoes/novo', component: NewCardComponent },
   { path: 'meu-perfil/pedidos', component: MeusPedidosComponent},
   { path: 'meu-perfil/pedidos/detalhes/:id', component: PedidoDetalhesComponent},
-  { path: 'meu-perfil/trocas', component: MinhasTrocasComponent}
+  { path: 'meu-perfil/trocas', component: MinhasTrocasComponent},
+  { path: 'meu-perfil/cupom', component: MeusCuponsComponent}
 ];
 
 @NgModule({

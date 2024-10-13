@@ -22,6 +22,7 @@ import { ResumoComponent } from './pages/carrinho/resumo/resumo.component';
 import { MeusPedidosComponent } from './pages/meu-perfil/meus-pedidos/meus-pedidos.component';
 import { PedidoDetalhesComponent } from './pages/meu-perfil/meus-pedidos/pedido-detalhes/pedido-detalhes.component';
 import { MinhasTrocasComponent } from './pages/meu-perfil/minhas-trocas/minhas-trocas.component';
+import { MeusCuponsComponent } from './pages/meu-perfil/meus-cupons/meus-cupons.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MinhasTrocasComponent } from './pages/meu-perfil/minhas-trocas/minhas-t
     MeusPedidosComponent,
     PedidoDetalhesComponent,
     MinhasTrocasComponent,
+    MeusCuponsComponent
   ],
   imports: [
     BrowserModule,

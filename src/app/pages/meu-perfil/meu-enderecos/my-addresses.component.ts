@@ -18,7 +18,7 @@ export class MyAddressesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.addressService.getAllAddress('1').subscribe((addressesBack) => {
+    this.addressService.getAllAddress().subscribe((addressesBack) => {
       this.myAddresses = addressesBack;
       this.loading = false;
     }, (error) => {
