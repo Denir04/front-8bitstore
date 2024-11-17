@@ -15,6 +15,8 @@ export class ProdutoComponent implements OnInit {
   loading = true;
   success = false;
   error = false;
+  errorMsg = '';
+  messageBack = '';
 
   constructor(
     private productService: ProductService, 
@@ -45,8 +47,11 @@ export class ProdutoComponent implements OnInit {
       (data) => {
         console.log(data);
         this.success = true;
+        this.messageBack = data.body["message"];
       },
       (err) => {
+        this.error = true;
+        this.messageBack = err.error["message"];
         console.log(err);
       }
     )

@@ -29,7 +29,7 @@ export class ResumoComponent implements OnInit {
     this.carrinhoService.getPedidoInfo().subscribe(
       (data) => {
         this.detail = data.body;
-        if(this.detail["diferenca"] !== 0) this.router.navigate(['carrinho/forma-pagamento']);
+        if(this.detail["diferenca"] > 0) this.router.navigate(['carrinho/forma-pagamento']);
         this.loading = false;
       },
       (err) => {

@@ -4,7 +4,7 @@
     </p>
     <div *ngIf="!loading; else other">
     <h1 class="mb-3">{{productDetail.titulo}}</h1>
-    <div class="row my-card border py-4 px-4" (click)="this.success = false">
+    <div class="row my-card border py-4 px-4" (click)="this.success = false; this.error = false; this.errorMsg = ''">
         <div class="col-md-6">
           <!-- Exibe a imagem do produto -->
           <img [src]="productDetail.imagem" alt="{{ productDetail.titulo }}" class="img-fluid rounded">
@@ -26,11 +26,14 @@
           </div>
           <div class="mt-4 row">
             <div *ngIf="success" class="d-flex justify-content-end">
-              <span class="mb-3 fs-5 fw-bold" style="color: #12761a;">Adicionado com sucesso!</span>
+              <span class="mb-3 fs-5 fw-bold" style="color: #12761a;">{{messageBack}}!</span>
+            </div>
+            <div *ngIf="error" class="d-flex justify-content-end">
+               <span class="mb-3 fs-5 fw-bold" style="color: #a11a18;">{{messageBack}}</span>
             </div>
             <div class="col">
               <label for="quantity" class="form-label">Quantidade no carrinho</label>
-              <input data-testid="input-unit" type="number" class="form-control w-50" id="quantity" [(ngModel)]="productDetail.quantidade_carrinho" min="1" />
+              <input data-testid="input-unit" type="number" class="form-control w-50" id="quantity" [(ngModel)]="productDetail.quantidade_carrinho" min="0" />
             </div>
             <button data-testid="btn-add-carrinho" class="col btn btn-secondary btn-lg" (click)="addCarrinho()">Adicionar ao Carrinho</button>
         </div>

@@ -71,29 +71,40 @@ export class FormaPagamentoComponent implements OnInit {
     this.loadingDetail = true;
     this.carrinhoService.getPedidoInfo().subscribe(
       (data) => {
+        console.log("detail", data.body);
         this.detail = data.body;
         this.loadingDetail = false;
         if(this.detail["endereco-entrega"] == null || this.detail["carrinho"].length === 0) this.router.navigate(['carrinho/endereco-entrega']);
+        
+        this.creditCardService.getAllCreditCard('1').subscribe((response) => {
+          this.myCards = response.body;
+          this.selectedCards = this.myCards.map((card) => {
+            const cardDetail = this.detail["cartoes"].find((cardDetail:any) => card.id === cardDetail.id);
+            return {
+              id: card.id, 
+              valor: cardDetail ?  cardDetail.valor : 0, 
+              selected: cardDetail ?  true : false
+            }
+          });
+          this.loading = false;
+        }, (error) => {
+          this.error = true;
+          this.loading = false;
+        });
+      
       },
       (err) => {
         console.error(err)
         this.loadingDetail = false;
       }
     )
-    this.creditCardService.getAllCreditCard('1').subscribe((response) => {
-      this.myCards = response.body;
-      this.selectedCards = this.myCards.map((card) => ({id: card.id, valor: 0, selected: false}));
-      this.loading = false;
-    }, (error) => {
-      this.error = true;
-      this.loading = false;
-    });
   }
 
   handleChangeCheck(index: number){
     if(this.selectedCards[index].selected) {
       this.selectedCards[index].selected = false;
       this.selectedCards[index].valor = 0;
+      this.removerCard(this.selectedCards[index].id);
     } else this.selectedCards[index].selected = true;
   }
 
@@ -110,7 +121,11 @@ export class FormaPagamentoComponent implements OnInit {
         this.detail["diferenca"] = data.body["diferenca"]
         this.detail["mensagem_erro"] = data.body["mensagem_erro"];
       },
-      (err) => console.error(err)
+      (err) => {
+        this.detail["mensagem_alert"] = err.error["mensagem_alert"];
+        this.detail["mensagem_erro"] = err.error["mensagem_erro"];
+        this.detail["diferenca"] = err.error["diferenca"];
+      }
     )
   }
 
@@ -137,15 +152,14 @@ export class FormaPagamentoComponent implements OnInit {
         this.detail["cupom-troca"] = data.body["cupom-troca"];
         this.detail["cupom-promo"] = data.body["cupom-promo"];
         this.detail["pagamento-total"] = data.body["pagamento-total"];
+        this.detail["diferenca"] = data.body["diferenca"]
       },
       (err) => console.error(err)
     );
   }
 
   removerCard(id: number){
-    console.log(id);
     const index = this.selectedCards.findIndex((card:any) => card.id == id);
-    console.log(index);
     this.selectedCards[index].valor = 0;
     this.sendPayment(index);
   }

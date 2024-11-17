@@ -14,8 +14,10 @@ export class PedidoDetalhesComponent implements OnInit {
   pedidoDetail: any = null;
   loading = true;
   loadingTroca = false;
-  success = false;
+  success: boolean = false;
   error = false;
+  errorModal = false;
+  errorMsg = '';
 
   isModalOpen = false;
   itensTrocar: ItensTrocar|any;
@@ -79,13 +81,21 @@ export class PedidoDetalhesComponent implements OnInit {
       (data) => {
         console.log(data)
         this.loadingTroca = false;
+        this.success = true;
       },
       (err) => {
         console.error(err);
+        this.errorModal = true;
+        this.errorMsg = err.error;
         this.loadingTroca = false;
       }
     )
     console.log(this.itensTrocar);
+  }
+
+  confirmSuccess(){
+    this.success = false;
+    this.closeModal();
   }
 
 }

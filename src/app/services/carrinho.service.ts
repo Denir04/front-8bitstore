@@ -30,11 +30,11 @@ export class CarrinhoService {
   }
 
   selectTicket(code: string): Observable<HttpResponse<any>>{
-    return this.http.post<any>(`${this.apiUrl}/cupom?clienteId=${this.customerService.getClienteId()}&codigo=${code}`,null,{withCredentials: true, observe: 'response'});
+    return this.http.post<any>(`${this.apiUrl}/cupom?clienteId=${this.customerService.getClienteId()}&codigo=${encodeURIComponent(code)}`,null,{withCredentials: true, observe: 'response'});
   }
 
   removeTicket(code: string): Observable<HttpResponse<any>>{
-    return this.http.delete<any>(`${this.apiUrl}/cupom?clienteId=${this.customerService.getClienteId()}&codigo=${code}`, {withCredentials: true,  observe: 'response'});
+    return this.http.delete<any>(`${this.apiUrl}/cupom?clienteId=${this.customerService.getClienteId()}&codigo=${encodeURIComponent(code)}`, {withCredentials: true,  observe: 'response'});
   }
 
   createPedido(id: string = "1") : Observable<HttpResponse<any>>{

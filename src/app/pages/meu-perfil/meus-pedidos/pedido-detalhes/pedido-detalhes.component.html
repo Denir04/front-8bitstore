@@ -14,7 +14,10 @@
                     <li *ngFor="let item of pedidoDetail['itens']" class="row align-items-center mb-3">
                         <img [src]="item.imagem" alt="placeholder" style="width: 150px; height: 150px; object-fit: cover;"/>
                         <span class="col">{{ item.titulo }}</span> 
-                        <span class="col">Quantidade: {{ item.quantidade }}</span> 
+                        <p class="col d-flex flex-column">
+                            <span>Quantidade: {{ item.quantidade }}</span>
+                            <span style="color: red;" *ngIf="item.quantidadeTroca" class="fs-6 mt-2 fw-bold">Trocada: {{ item.quantidadeTroca }}</span>
+                        </p> 
                         <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
                     </li>
                 </ul>
@@ -77,7 +80,7 @@
         </section>
     </div>
     <div *ngIf="!loading" class="modal fade show d-block" tabindex="-1" [ngClass]="{'d-none': !isModalOpen}">
-        <div class="modal-dialog">
+        <div *ngIf="!success && !errorModal; else otherModal" class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Selecione os Produtos a Trocar</h4>
@@ -91,7 +94,7 @@
                         <div class="col row align-items-center">
                             <button class="btn btn-secondary col" (click)="removeItemUnit(item.id)" [disabled]="getItemUnit(item.id) === 0">-</button>
                             <p class="col text-center">{{getItemUnit(item.id)}}</p>
-                            <button class="btn btn-secondary col" (click)="addItemUnit(item.id)" [disabled]="getItemUnit(item.id) === item.quantidade">+</button>
+                            <button class="btn btn-secondary col" (click)="addItemUnit(item.id)" [disabled]="getItemUnit(item.id) === (item.quantidade - item.quantidadeTroca)">+</button>
                         </div>
                         <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
                     </li>
@@ -110,6 +113,40 @@
             </div>
           </div>
         </div>
+        <ng-template #otherModal>
+            <div *ngIf="success" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header"></div>
+                    <div class="modal-body">
+                        <p class="mb-4">Operação realizada com sucesso!</p>
+                            <button
+                            class="btn btn-secondary btn-md"
+                            (click)="confirmSuccess()"
+                            >
+                            OK
+                            </button>
+                    </div>
+                    <div class="modal-footer"></div>
+                  </div>
+            </div>
+            <div *ngIf="errorModal" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header"></div>
+                    <div class="modal-body">
+                        <p class="mb-4">Houve um Problema</p>
+                        <p class="mb-4">{{errorMsg}}</p>
+                        
+                            <button
+                            class="btn btn-secondary btn-md"
+                            (click)="confirmSuccess()"
+                            >
+                            OK
+                            </button>
+                    </div>
+                    <div class="modal-footer"></div>
+                  </div>
+            </div>
+        </ng-template>
       </div>
     <ng-template #other>
         <p *ngIf="loading">Carregando...</p>

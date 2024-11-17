@@ -4,7 +4,7 @@
       <span role="button" (click)="goBack()"><< Voltar</span>
     </p>
     <h1 class="mb-4">Selecione Forma de Pagamento</h1>
-    <div class="row d-flex justify-content-between" *ngIf="!loading; else other">
+    <div class="row d-flex justify-content-between" *ngIf="!loading; else other" (change)="this.errorTicketMsg = ''">
         <section
         *ngIf="!loading && !error; else other"
         class="col-7"
@@ -21,6 +21,7 @@
                   class="form-check-input me-3 border-black"
                   style="width: 45px; height: 45px;"
                   (change)="handleChangeCheck(i)"
+                  [checked]="this.selectedCards[i].selected"
                 />
             <div class="d-flex flex-column">
               <p class="fs-4 fw-bold">
@@ -76,8 +77,8 @@
                 <div *ngIf="detail['cupom-troca']?.length > 0" >
                   <div *ngFor="let cupomTroca of detail['cupom-troca']" class="row">
                     <span class="col-5">{{cupomTroca.codigo}}</span>
-                    <span class="col-3 fw-1" style="color: red;" (click)="removeTicket(cupomTroca.codigo)" role="button"> (remover)</span>
-                    <span class="col-4 text-end">R{{cupomTroca.valor | currency: 'USD'}}</span>
+                    <span class="col-7 text-end">R{{cupomTroca.valor | currency: 'USD'}}</span>
+                    <span class="col-12 fw-1" style="color: red;" (click)="removeTicket(cupomTroca.codigo)" role="button"> (remover)</span>
                   </div>
                 </div>
                 <div *ngIf="detail.cartoes?.length > 0">
@@ -91,16 +92,19 @@
                   <span class="col fw-bold">Pagamento Total</span>
                   <span class="col text-end">R{{detail["pagamento-total"]| currency: 'USD' }}</span>
                 </div>
-                <p *ngIf="detail['diferenca'] > 0" class="alert-text">
+                <p *ngIf="detail['diferenca'] > 0" class="error-text">
                   <span>Está faltando no pagamento: </span>
                   <span>R{{detail["diferenca"] | currency: 'USD'}}</span>
                 </p>
                 <p *ngIf="detail['diferenca'] < 0" class="alert-text">
-                  <span>Está sobrando no pagamento: </span>
+                  <span>Cupom de Troca a ganhar: </span>
                   <span>R{{valueAbsulote(detail["diferenca"]) | currency: 'USD'}}</span>
                 </p>
-                <p *ngIf="detail['mensagem_erro']" class="alert-text">
+                <p *ngIf="detail['mensagem_erro']" class="error-text">
                   <span>{{detail['mensagem_erro']}}</span>
+                </p>
+                <p *ngIf="detail['mensagem_alert']" class="alert-text">
+                  <span>{{detail['mensagem_alert']}}</span>
                 </p>
             </div>
             <div class="row gap-4">
@@ -108,7 +112,7 @@
               <button 
                 class="btn btn-primary fs-5 col" 
                 (click)="goToNextStep()"
-                [disabled]="this.detail['diferenca'] !== 0"
+                [disabled]="this.detail['diferenca'] > 0 || this.detail['mensagem_erro']"
                 id="btn-avancar"
               >
                 Avançar
