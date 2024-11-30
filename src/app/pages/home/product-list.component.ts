@@ -39,7 +39,8 @@ export class ProductListComponent implements OnInit {
       custoMax: '',
       categorias: [[]],
       desenvolvedoras: [[]],
-      plataformas: [[]]
+      plataformas: [[]],
+      descricao: ''
     });
   }
 
@@ -87,7 +88,22 @@ export class ProductListComponent implements OnInit {
   }
 
   onClear(){
-    this.productForm.reset({});
+    this.productForm.reset({
+      isbn: '',
+      titulo : '',
+      anoMin : '',
+      anoMax : '',
+      faixaEtariaMin: '',
+      faixaEtariaMax: '',
+      minJogadores: '',
+      maxJogadores: '',
+      custoMin: '',
+      custoMax: '',
+      categorias: [[]],
+      desenvolvedoras: [[]],
+      plataformas: [[]],
+      descricao: ''
+    });
     this.ngOnInit();
   }
 
