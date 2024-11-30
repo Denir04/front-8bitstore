@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { customPatterns } from 'src/app/core/patterns';
 import { ErrorMsgs } from 'src/app/models/errorMsgs';
 import { CustomerService } from 'src/app/services/customer.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -45,7 +46,8 @@ export class MyProfileComponent implements OnInit {
   };
   constructor(
     private formBuilder: FormBuilder,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    public notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {

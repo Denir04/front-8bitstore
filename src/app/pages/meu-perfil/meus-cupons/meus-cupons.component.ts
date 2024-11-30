@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CupomService } from 'src/app/services/cupom.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-meus-cupons',
@@ -11,7 +12,8 @@ export class MeusCuponsComponent implements OnInit {
   loading = true;
 
   constructor(
-    private cupomService: CupomService
+    private cupomService: CupomService,
+    public notificationService: NotificationService
   ){}
 
   ngOnInit(): void {

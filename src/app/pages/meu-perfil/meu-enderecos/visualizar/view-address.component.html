@@ -20,7 +20,9 @@
           <a class="nav-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
         </li>
         <li class="nav-item"> 
-          <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas</a>
+          <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas
+            <span *ngIf="notificationService.isHaveNotification()" class="notify"></span>
+          </a>
         </li>
         <li class="nav-item"> 
           <a class="nav-link" href="/meu-perfil/cupom">Meus Cupons</a>

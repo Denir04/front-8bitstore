@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Address } from 'src/app/models/address';
 import { AddressService } from 'src/app/services/address.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-my-addresses',
@@ -14,7 +15,11 @@ export class MyAddressesComponent implements OnInit {
   success: boolean = false;
   error: boolean = false;
 
-  constructor(private addressService: AddressService, private router: Router) {}
+  constructor(
+    private addressService: AddressService, 
+    private router: Router,
+    public notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;

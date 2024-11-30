@@ -216,3 +216,12 @@ ul.nav li a.active {
 .modal-dialog {
   max-width: 1200px;
 }
+
+.notify{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: blueviolet;
+  border-radius: 10px;
+}
+

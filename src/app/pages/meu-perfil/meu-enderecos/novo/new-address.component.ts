@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ErrorMsgsAddress } from 'src/app/models/errorMsgAdress';
 import { IbgeService } from 'src/app/services/external/ibge.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-new-address',
@@ -40,7 +41,8 @@ export class NewAddressComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     private router: Router,
-    private ibgeService: IbgeService
+    private ibgeService: IbgeService,
+    public notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {

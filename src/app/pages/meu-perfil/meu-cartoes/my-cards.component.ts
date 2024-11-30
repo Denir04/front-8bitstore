@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditCard } from 'src/app/models/credit-card';
 import { CreditCardService } from 'src/app/services/credit-card.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-my-cards',
@@ -19,7 +20,8 @@ export class MyCardsComponent implements OnInit {
 
   constructor(
     private creditCardService: CreditCardService,
-    private router: Router
+    private router: Router,
+    public notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {

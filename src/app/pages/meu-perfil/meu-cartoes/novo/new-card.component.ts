@@ -4,6 +4,7 @@ import { customPatterns } from 'src/app/core/patterns';
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ErrorMsgsCard } from 'src/app/models/errorMsgCard';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-new-card',
@@ -27,7 +28,8 @@ export class NewCardComponent {
   constructor(
     private formBuilder: FormBuilder,
     private location: Location,
-    private creditCardService: CreditCardService
+    private creditCardService: CreditCardService,
+    public notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
