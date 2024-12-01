@@ -16,6 +16,7 @@ import { CreditCardService } from 'src/app/services/credit-card.service';
 export class FormaPagamentoComponent implements OnInit {
   detail: any;
   myCards: CreditCard[] = [];
+  bandeiras: any = [];
   selectedCards:any = [];
   loading = true;
   loadingDetail = true;
@@ -98,6 +99,15 @@ export class FormaPagamentoComponent implements OnInit {
         this.loadingDetail = false;
       }
     )
+    this.creditCardService.getAllBandeiras().subscribe(
+      (data) => {
+        console.log(data);
+        this.bandeiras = data.body;
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
   }
 
   handleChangeCheck(index: number){
@@ -120,6 +130,7 @@ export class FormaPagamentoComponent implements OnInit {
         this.detail["pagamento-total"] = data.body["pagamento-total"];
         this.detail["diferenca"] = data.body["diferenca"]
         this.detail["mensagem_erro"] = data.body["mensagem_erro"];
+        this.detail["mensagem_alert"] = data.body["mensagem_alert"];
       },
       (err) => {
         this.detail["mensagem_alert"] = err.error["mensagem_alert"];

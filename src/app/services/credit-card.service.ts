@@ -14,6 +14,10 @@ export class CreditCardService {
     private customerService: CustomerService
   ) {}
 
+  getAllBandeiras(): Observable<HttpResponse<any>>{
+    return this.http.get(`${this.apiUrl}/bandeiras`, {observe: 'response'});
+  }
+
   getAllCreditCard(id: string): Observable<HttpResponse<any>> {
     return this.http.get(`${this.apiUrl}?clienteId=${this.customerService.getClienteId()}`, {
       observe: 'response',
@@ -45,5 +49,9 @@ export class CreditCardService {
       null,
       { observe: 'response' }
     );
+  }
+
+  getErrorMessage():Observable<HttpResponse<any>>{
+    return this.http.get(`${this.apiUrl}/mensagem-erro`, {observe: 'response'});
   }
 }

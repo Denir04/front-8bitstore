@@ -13,6 +13,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class NewCardComponent {
   creditCardForm: FormGroup = new FormGroup({});
+  bandeiras: any = [];
   customPatterns = customPatterns;
   loading = false;
   success = false;
@@ -39,6 +40,13 @@ export class NewCardComponent {
       cvv: ['', Validators.required],
       bandeira: [null, Validators.required],
     });
+    this.creditCardService.getAllBandeiras().subscribe(
+      (data) => {
+        console.log(data);
+        this.bandeiras = data.body;
+      },
+      (err) =>  console.error(err)
+    );
   }
   
 

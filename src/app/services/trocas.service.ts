@@ -25,4 +25,8 @@ export class TrocasService {
   getMyTrocas(id: string = '1'): Observable<HttpResponse<any>>{
     return this.http.get<any>(`${this.apiUrl}/minhas-trocas?clienteId=${this.customerService.getClienteId()}`, {observe: 'response'});
   }
+
+  cancelarTroca(pedidoTrocaId: string):Observable<HttpResponse<any>>{
+    return this.http.put<any>(`${this.apiUrl}/alterar-status?pedidoId=${pedidoTrocaId}&codigo=7`, {}, {observe: 'response'});
+  }
 }

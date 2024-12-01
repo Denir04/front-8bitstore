@@ -11,11 +11,27 @@ export class MinhasTrocasComponent implements OnInit {
   notifications: any = [];
   loading = true;
   myTrocas:any = [];
+  success = false;
+  isModalOpen = false;
 
   constructor(
     private trocaService: TrocasService,
     public notificationService: NotificationService
   ){}
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+    window.location.reload();
+  }
+
+  confirmSuccess(){
+    this.success = false;
+    this.closeModal();
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -35,5 +51,16 @@ export class MinhasTrocasComponent implements OnInit {
   }
 
 
-
+  cancelarTroca(id: number): void{
+    this.trocaService.cancelarTroca(String(id)).subscribe(
+      (data) => {
+        this.success = true;
+        this.openModal();
+      },
+      (err) => {
+        this.success = false;
+        this.openModal();
+      }
+    );
+  }
 }

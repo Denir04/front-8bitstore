@@ -73,10 +73,7 @@
           <label class="form-label">Bandeira</label>
           <select class="form-select" formControlName="bandeira" (input)="this.errorMsg.bandeira = ''">
             <option selected disabled value="">Escolha...</option>
-            <option value="visa">Visa</option>
-            <option value="mastercard">Mastercard</option>
-            <option value="amex">American Express</option>
-            <option value="elo">Elo</option>
+            <option *ngFor="let bandeira of bandeiras" [value]="bandeira.id">{{bandeira.bandeiraNome}}</option>
           </select>
           <small
             class="text-danger"

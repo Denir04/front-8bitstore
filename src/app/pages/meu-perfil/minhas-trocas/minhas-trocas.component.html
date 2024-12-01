@@ -1,4 +1,5 @@
 <div class="container-lg">
+  <div [ngClass]="{'blur-background': isModalOpen}">
     <h1 class="mb-4">Meu Perfil</h1>
     <div class="row">
       <div class="col-3">
@@ -52,7 +53,7 @@
               </div>
           </article>
           <footer class="row d-flex justify-content-between align-items-center border-top border-black pt-2">
-            <button *ngIf="troca.status === 'TROCA_SOLICITADA'" class="col-2 btn btn-danger">
+            <button *ngIf="troca.status === 'TROCA_SOLICITADA'" class="col-2 btn btn-danger" (click)="cancelarTroca(troca.id)">
               Cancelar
             </button>
             <button *ngIf="troca.status !== 'TROCA_SOLICITADA'" class="col-2 btn btn-danger" style="visibility: hidden;">
@@ -70,4 +71,37 @@
       </ng-template> 
     </div>
   </div>
+  <div *ngIf="!loading" class="modal fade show d-block" tabindex="-1" [ngClass]="{'d-none': !isModalOpen}">
+    <div *ngIf="success" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <p class="mb-4">Operação realizada com sucesso!</p>
+                    <button
+                    class="btn btn-secondary btn-md"
+                    (click)="confirmSuccess()"
+                    >
+                    OK
+                    </button>
+            </div>
+            <div class="modal-footer"></div>
+          </div>
+    </div>
+    <div *ngIf="!success" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <p class="mb-4">Houve um Problema</p>
+                    <button
+                    class="btn btn-secondary btn-md"
+                    (click)="confirmSuccess()"
+                    >
+                    OK
+                    </button>
+            </div>
+            <div class="modal-footer"></div>
+          </div>
+    </div>
+</div>
+</div>
   
