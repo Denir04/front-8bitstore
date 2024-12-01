@@ -9,10 +9,10 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/meu-perfil/enderecos">Meus Endereços</a>
+          <a class="nav-link" data-testid="meus-enderecos-link" href="/meu-perfil/enderecos">Meus Endereços</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/meu-perfil/cartoes">Meus Cartões</a>
+          <a class="nav-link" data-testid="meus-cartoes-link" href="/meu-perfil/cartoes">Meus Cartões</a>
         </li>
         <li class="nav-item"> 
           <a class="nav-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
@@ -139,12 +139,14 @@
           <button
             class="btn btn-secondary btn w-25 me-3"
             type="button"
+            data-testid="alterar-senha-btn"
             (click)="this.changeOnlyPassword = true; this.submitted = false"
           >
             Alterar Somente Senha
           </button>
           <button
             class="btn btn-primary btn w-25"
+            data-testid="alterar-btn"
             type="button"
             (click)="onSubmit('')"
           >
@@ -158,6 +160,7 @@
         <p class="mb-4">Operação Realizada Com Sucesso</p>
         <button
           class="btn btn-secondary btn-md"
+          data-testid="btn-ok"
           (click)="this.success = false; this.changeOnlyPassword = false; onReloadPage()"
         >
           OK
@@ -239,6 +242,7 @@
             <button
               class="btn btn-primary btn w-25"
               type="button"
+              data-testid="alterar-senha-submit"
               (click)="onSubmit('password')"
             >
               Alterar

@@ -326,6 +326,7 @@
         <input
           type="text"
           class="form-control"
+          data-testid="observacoes"
           [mask]="'S*'"
           [patterns]="customPatterns"
         />
@@ -333,6 +334,7 @@
       <div class="col-12 mt-4 d-flex justify-content-end">
         <button
           class="btn btn-primary btn-lg w-25"
+          data-testid="cadastrar-cliente-btn"
           type="button"
           (click)="onSubmit()"
           *ngIf="!loading"
@@ -357,6 +359,7 @@
         <button
           class="btn btn-secondary btn-md"
           (click)="this.success = false; goHome()"
+          data-testid="btn-ok"
         >
           OK
         </button>

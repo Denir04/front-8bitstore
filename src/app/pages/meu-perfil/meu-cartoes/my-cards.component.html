@@ -33,7 +33,7 @@
         <ul *ngIf="myCards.length > 0">
           <li
             class="painel mb-3 d-flex justify-content-between align-items-center"
-            *ngFor="let card of myCards"
+            *ngFor="let card of myCards; index as i"
           >
             <div class="d-flex flex-column">
               <p class="fs-4 fw-bold">
@@ -57,6 +57,7 @@
               </button>
               <button
                 class="btn btn-danger ms-3"
+                [id]="'cartao-excluir-'+i"
                 (click)="this.confirmDelete = card.id"
               >
                 Excluir
@@ -74,6 +75,7 @@
             <p class="mb-4">Operação realizada com sucesso!</p>
             <button
               class="btn btn-secondary btn-md"
+              data-testid="btn-ok"
               (click)="onReloadPage();"
             >
               OK
@@ -87,7 +89,7 @@
             >
               Voltar
             </button>
-            <button class="btn btn-danger btn-md" (click)="onDelete()">
+            <button data-testid="excluir-btn-confirm" class="btn btn-danger btn-md" (click)="onDelete()">
               Excluir
             </button>
         </div>

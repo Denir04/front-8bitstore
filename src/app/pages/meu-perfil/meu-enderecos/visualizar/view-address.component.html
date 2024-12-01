@@ -269,6 +269,7 @@
             </button>
             <button
               class="btn btn-danger btn-lg w-20"
+              data-testid="excluir-btn"
               (click)="this.confirmDelete = true"
             >
               Excluir
@@ -288,6 +289,7 @@
           <p class="mb-4">Operação realizada com sucesso!</p>
           <button
             class="btn btn-secondary btn-md"
+            data-testid="btn-ok"
             (click)="onBack()"
           >
             OK
@@ -303,7 +305,7 @@
           >
             Voltar
           </button>
-          <button class="btn btn-danger btn-md" (click)="onDelete()">
+          <button data-testid="excluir-confirm-btn" class="btn btn-danger btn-md" (click)="onDelete()">
             Excluir
           </button>
         </div>

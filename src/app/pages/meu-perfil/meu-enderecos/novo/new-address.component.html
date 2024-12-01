@@ -208,6 +208,7 @@
           <input
             type="text"
             class="form-control"
+            data-testid="observacoes"
             [mask]="'S*'"
             [patterns]="customPatterns"
           />
@@ -262,6 +263,7 @@
             <button
               class="btn btn-primary btn-lg w-20 me-3"
               type="submit"
+              data-testid="criar-btn"
               (click)="onSubmit()"
             >
               Criar
@@ -281,6 +283,7 @@
           <p class="mb-4">Operação realizada com sucesso!</p>
           <button
             class="btn btn-secondary btn-md"
+            data-testid="btn-ok"
             (click)="this.success = false; onBack()"
           >
             OK
