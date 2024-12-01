@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IbgeService } from './services/external/ibge.service';
 import { interval } from 'rxjs';
 import { NotificationService } from './services/notification.service';
+import { CustomerService } from './services/customer.service';
+import { TrocasService } from './services/trocas.service';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +15,22 @@ export class AppComponent implements OnInit {
 
   constructor(
     private ibgeService: IbgeService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private customerService: CustomerService,
+    private trocaService: TrocasService
   ){}
 
   ngOnInit(): void {
     this.ibgeService.getAllEstadosBr();
-    interval(5000).subscribe(() => {
-      this.notificationService.getUnreadNotifications();
-    });
+    this.trocaService.isHaveTrocaSolicitada(this.customerService.getClienteId()).subscribe(
+      (data) => {
+        if(data.body){
+          interval(5000).subscribe(() => {
+            this.notificationService.getUnreadNotifications();
+          });
+        }
+      },
+      (err) => console.log(err)
+    );
   }
 }

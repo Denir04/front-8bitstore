@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ItensTrocar } from 'src/app/models/itensTrocar';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { TrocasService } from 'src/app/services/trocas.service';
+import { interval } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-pedido-detalhes',
@@ -26,6 +28,7 @@ export class PedidoDetalhesComponent implements OnInit {
     private pedidoService: PedidoService,
     private trocaService: TrocasService,
     private activedRouter: ActivatedRoute,
+    private notificationService: NotificationService,
     private location: Location
   ){}
 
@@ -82,6 +85,9 @@ export class PedidoDetalhesComponent implements OnInit {
         console.log(data)
         this.loadingTroca = false;
         this.success = true;
+        interval(5000).subscribe(() => {
+          this.notificationService.getUnreadNotifications();
+        });
       },
       (err) => {
         console.error(err);

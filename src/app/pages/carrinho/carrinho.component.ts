@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarrinhoService } from 'src/app/services/carrinho.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-carrinho',
@@ -10,6 +11,7 @@ import { CarrinhoService } from 'src/app/services/carrinho.service';
 export class CarrinhoComponent implements OnInit {
   detail: any;
   loading = true;
+  msgProdutoErro:any = {};
 
   constructor(
     private carrinhoService: CarrinhoService,
@@ -20,12 +22,10 @@ export class CarrinhoComponent implements OnInit {
     this.loading = true;
     this.carrinhoService.getPedidoInfo().subscribe(
       (data) => {
-        console.log(data);
         this.detail = data.body;
         this.loading = false;
       },
       (err) => {
-        console.error(err)
         this.loading = false;
       }
     )
@@ -41,6 +41,15 @@ export class CarrinhoComponent implements OnInit {
         },
         (err) => {
           console.error(err)
+          if(err.status == 403){
+            this.msgProdutoErro = {
+              id: id,
+              message: err.error.message
+            }
+          }
+          interval(3000).subscribe(() => {
+            this.msgProdutoErro = {};
+          });
           this.loading = false;
         }
     );

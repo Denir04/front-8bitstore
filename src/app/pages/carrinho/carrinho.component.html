@@ -15,10 +15,13 @@
                 <img class="col" [src]="item.imagem" alt="placeholder" style="width: 120px; height: 120px; object-fit: cover;"/>
                 <p class="col fw-bold">{{item.titulo }}</p>
                 <p class="col">R{{item.preco | currency: 'USD' }}</p>
-                <div class="col row align-items-center">
-                    <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade - 1)">-</button>
-                    <p class="col text-center">{{item.quantidade }}</p>
-                    <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade + 1)">+</button>
+                <div class="col">
+                    <div class="row align-items-center">
+                        <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade - 1)">-</button>
+                        <p class="col text-center">{{item.quantidade }}</p>
+                        <button class="btn btn-secondary col" (click)="changeItem(item.id, item.quantidade + 1)">+</button>
+                    </div>
+                    <p *ngIf="msgProdutoErro.id == item.id" class="text-center fs-6" style="color: red;" >{{msgProdutoErro.message}}</p>
                 </div>
                 <div class="col d-flex justify-content-end">
                     <button class="btn btn-lg btn-danger" (click)="changeItem(item.id, 0)">Excluir</button>
