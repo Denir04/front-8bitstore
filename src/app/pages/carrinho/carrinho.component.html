@@ -9,7 +9,7 @@
                 <p>Não possui nenhum item no carrinho :(</p>
             </article>
             <article 
-                *ngFor="let item of detail.carrinho"
+                *ngFor="let item of detail.carrinho; index as i"
                 class="painel d-flex mb-3 row align-items-center"
             >
                 <img class="col" [src]="item.imagem" alt="placeholder" style="width: 120px; height: 120px; object-fit: cover;"/>
@@ -24,7 +24,7 @@
                     <p *ngIf="msgProdutoErro.id == item.id" class="text-center fs-6" style="color: red;" >{{msgProdutoErro.message}}</p>
                 </div>
                 <div class="col d-flex justify-content-end">
-                    <button class="btn btn-lg btn-danger" (click)="changeItem(item.id, 0)">Excluir</button>
+                    <button class="btn btn-lg btn-danger" [id]="'btn-excluir-'+i" (click)="changeItem(item.id, 0)">Excluir</button>
                 </div>
             </article>
         </section>

@@ -123,7 +123,6 @@ export class FormaPagamentoComponent implements OnInit {
   }
 
   sendPayment(index: number){
-    console.log(this.selectedCards);
     this.carrinhoService.selectCards(this.selectedCards[index]).subscribe(
       (data) => {
         this.detail.cartoes = data.body.cartoes;
@@ -149,9 +148,9 @@ export class FormaPagamentoComponent implements OnInit {
         this.detail["pagamento-total"] = data.body["pagamento-total"];
         this.detail["diferenca"] = data.body["diferenca"]
       },
-      (err) => {
-        this.errorTicketMsg = err.error;
-        console.error(err)
+      ({error: {error}}) => {
+        this.errorTicketMsg = error;
+        console.error(error)
       } 
     )
   }

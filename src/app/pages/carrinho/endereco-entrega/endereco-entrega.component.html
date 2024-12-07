@@ -33,7 +33,7 @@
                 </div>
               </div>
             </li>
-            <button class="btn btn-primary" (click)="openModal()">
+            <button data-testid="btn-criar-endereco" class="btn btn-primary" (click)="openModal()">
               Criar Novo Endereço
             </button>
           </ul>
@@ -240,6 +240,7 @@
           <input
             type="text"
             class="form-control"
+            data-testid="observacoes"
             [mask]="'S*'"
             [patterns]="customPatterns"
           />
@@ -295,6 +296,7 @@
               class="btn btn-primary" 
               (click)="onSubmit()"
               [disabled]="loadingForm"
+              data-testid="btn-submit-novo-endereco"
             >
               {{loadingForm ? "Carregando..." : "Salvar Endereço"}}
             </button>

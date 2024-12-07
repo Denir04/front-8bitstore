@@ -84,11 +84,13 @@ export class MyProfileComponent implements OnInit {
     if (type === 'password') {
       this.customerService.updatePassword({...this.passwordForm.value, id: this.customerId}).subscribe(
         (res) => {
+          console.log(res);
           this.loading = false;
           this.success = true;
           this.passwordForm.reset();
         },
         ({error, status}) => {
+          console.log(error, status);
           if(status === 400) {
             this.changeOnlyPassword = true;
             this.errorMsgs = error;
@@ -100,10 +102,12 @@ export class MyProfileComponent implements OnInit {
     }else{
       this.customerService.updatePersonalData({...this.customerForm.value, id: this.customerId}).subscribe(
         (res) => {
+          console.log(res);
           this.success = true;
           this.loading = false;
         },
         ({error, status}) => {
+          console.log(error, status)
           if(status === 400) this.errorMsgs = error;
           else this.error = true;
           this.loading = false;

@@ -1,7 +1,7 @@
 <div class="container-lg">
     <div [ngClass]="{'blur-background': isModalOpen}">
         <p class="fs-4 mb-3">
-            <span role="button" (click)="goBack()"><< Voltar</span>
+            <span data-testid="btn-voltar" role="button" (click)="goBack()"><< Voltar</span>
         </p>
         <h1 class="mb-3" *ngIf="!loading && !success; else other">Detalhes Pedido #{{pedidoDetail.id}}</h1>
         <section class="painel" *ngIf="!loading && !success; else other">
@@ -25,7 +25,7 @@
                     <span class="fw-bold col-2">Total dos itens: </span> 
                     <strong class="col-1 text-end">R{{ (pedidoDetail["valor_total"] - pedidoDetail['frete'] ) | currency: 'USD'  }}</strong></p>
             </div>
-            <button *ngIf="pedidoDetail['status'] === 'ENTREGUE'" class="btn btn-secondary mb-4" (click)="openModal()">Solicitar uma Troca</button>
+            <button data-testid="btn-solicitar-troca" *ngIf="pedidoDetail['status'] === 'ENTREGUE'" class="btn btn-secondary mb-4" (click)="openModal()">Solicitar uma Troca</button>
             <h2 class="fw-bold fs-4">Endereço de Cobrança</h2>
             <div class="endereco-cobranca mb-4">
                 <p><strong>Apelido:</strong> {{ pedidoDetail['endereco_cobranca'].apelido }}</p>
@@ -88,13 +88,13 @@
             </div>
             <div class="modal-body">
                 <ul>
-                    <li *ngFor="let item of pedidoDetail['itens']" class="row align-items-center mb-3">
+                    <li *ngFor="let item of pedidoDetail['itens']; index as i" class="row align-items-center mb-3">
                         <img [src]="item.imagem" alt="placeholder" style="width: 150px; height: 150px; object-fit: cover;"/>
                         <span class="col">{{ item.titulo }}</span> 
                         <div class="col row align-items-center">
                             <button class="btn btn-secondary col" (click)="removeItemUnit(item.id)" [disabled]="getItemUnit(item.id) === 0">-</button>
                             <p class="col text-center">{{getItemUnit(item.id)}}</p>
-                            <button class="btn btn-secondary col" (click)="addItemUnit(item.id)" [disabled]="getItemUnit(item.id) === (item.quantidade - item.quantidadeTroca)">+</button>
+                            <button [id]="'btn-add-'+i" class="btn btn-secondary col" (click)="addItemUnit(item.id)" [disabled]="getItemUnit(item.id) === (item.quantidade - item.quantidadeTroca)">+</button>
                         </div>
                         <span class="col text-end"> R{{ item.preco | currency: 'USD' }}</span>
                     </li>
@@ -104,6 +104,7 @@
               <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
               <button 
                 type="button" 
+                data-testid="btn-submit-troca"
                 class="btn btn-primary" 
                 (click)="sendTroca()"
                 [disabled]="loadingTroca"
@@ -120,6 +121,7 @@
                     <div class="modal-body">
                         <p class="mb-4">Operação realizada com sucesso!</p>
                             <button
+                            id="btn-ok"
                             class="btn btn-secondary btn-md"
                             (click)="confirmSuccess()"
                             >

@@ -1,6 +1,6 @@
 <div class="container">
     <p class="fs-4 mb-3">
-      <span role="button" (click)="goBack()"><< Voltar</span>
+      <span role="button" data-testid="link-voltar" (click)="goBack()"><< Voltar</span>
     </p>
     <div *ngIf="!loading; else other">
     <h1 class="mb-3">{{productDetail.titulo}}</h1>

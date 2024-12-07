@@ -52,7 +52,7 @@ export class MyCardsComponent implements OnInit {
           this.confirmDelete = 0;
         }
       },
-      ({ error }) => {
+      ({error: {error}}) => {
         this.confirmDelete = 0;
         this.error = true;
         this.errorMsg = error;

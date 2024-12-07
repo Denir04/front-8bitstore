@@ -81,13 +81,14 @@ export class ViewAddressComponent implements OnInit {
     this.loading = true;
     this.addressService.updateAddress({...this.addressForm.value, id: this.enderecoId}, `1`).subscribe(
       (res) => {
+        console.log(res)
         this.success = true;
         this.loading = false;
       },
       ({status, error}) => {
-        console.log(error);
         if(status === 400){
           this.errorMsgs = error;
+          console.log(this.errorMsgs);
         } else{
           this.error = true;
         }
@@ -117,8 +118,8 @@ export class ViewAddressComponent implements OnInit {
         this.success = true;
         this.loading = false;
       },
-      (error) => {
-        this.errorMsg = error.error;
+      ({error: {error}}) => {
+        this.errorMsg = error;
         this.loading = false;
         this.error = true;
       }

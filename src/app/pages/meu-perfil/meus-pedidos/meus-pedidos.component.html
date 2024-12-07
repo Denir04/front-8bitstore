@@ -16,7 +16,7 @@
             <a class="nav-link active" href="/meu-perfil/pedidos">Meus Pedidos</a>
           </li>
           <li class="nav-item"> 
-            <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas
+            <a data-testid="minhas-troca-link" class="nav-link" href="/meu-perfil/trocas">Minhas Trocas
               <span *ngIf="notificationService.isHaveNotification()" class="notify"></span>
             </a>
           </li>
@@ -33,7 +33,7 @@
         <ul *ngIf="myPedidos.length > 0">
           <li
             class="painel mb-3"
-            *ngFor="let pedido of myPedidos"
+            *ngFor="let pedido of myPedidos; index as i"
           >
           <header class="row border-bottom border-black mb-2 pb-1">
             <p class="col">#{{pedido.id}}</p>
@@ -49,7 +49,7 @@
               </div>
           </article>
           <footer class="row d-flex justify-content-start align-items-center border-top border-black pt-2">
-            <button class="col-2 btn btn-secondary" (click)="goToDetail(pedido.id)">
+            <button [id]="'detalhes-pedido-'+i" class="col-2 btn btn-secondary" (click)="goToDetail(pedido.id)">
               Detalhes
             </button>
             <p class="col-3 text-end ms-auto">

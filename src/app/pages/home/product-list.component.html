@@ -114,11 +114,11 @@
         <div class="col-12">
           <label class="form-label fw-bold">Categorias</label>
           <div class="d-flex align-items-center gap-3">
-            <div *ngFor="let categoria of categoriasList" class="form-check">
+            <div *ngFor="let categoria of categoriasList;index as i" class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
-                [id]="'categoria'+categoria.id"
+                [id]="'categoria-'+i"
                 (change)="onSelectionChange($event, categoria.id, 'categorias')"
               />
               <label class="form-check-label" [htmlFor]="'categoria'+categoria.id">{{ categoria.nome }}</label>
@@ -130,11 +130,11 @@
         <div class="col-12">
           <label class="form-label fw-bold">Plataformas</label>
           <div class="d-flex align-items-center gap-3">
-            <div *ngFor="let plataforma of plataformasList" class="form-check">
+            <div *ngFor="let plataforma of plataformasList; index as i" class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
-                [id]="'plataforma'+plataforma.id"
+                [id]="'plataforma-'+i"
                 (change)="onSelectionChange($event, plataforma.id, 'plataformas')"
               />
               <label class="form-check-label" [htmlFor]="'plataforma'+plataforma.id">{{ plataforma.nome }}</label>
@@ -171,7 +171,7 @@
       </div>
     </div>
       <div class="mt-3 col d-flex align-items-end justify-content-end">
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="submit" data-testid="btn-buscar" class="btn btn-primary">Buscar</button>
         <button
           type="button"
           class="btn btn-secondary ms-3"
@@ -183,8 +183,8 @@
     </form>
     <section *ngIf="!loading; else other">
         <div class="row">
-            <div class="col-md-3" *ngFor="let product of products">
-              <div [id]="'product-'+product.id" class="card mb-4 shadow-sm" role="button" (click)="goToDetail(product.id)" >
+            <div class="col-md-3" *ngFor="let product of products; index as i">
+              <div [id]="'product-'+i" class="card mb-4 shadow-sm" role="button" (click)="goToDetail(product.id)" >
                 <img [src]="product.imagem" alt="{{ product.titulo }}" class="card-img-top">
                 <div class="card-body">
                   <h5 class="card-title">{{ product.titulo }}</h5>
