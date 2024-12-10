@@ -43,6 +43,7 @@
             <div class="actions">
               <button
                 *ngIf="!card.preferencial"
+                [id]="'cartao-preferencial-'+i"
                 class="btn btn-primary"
                 (click)="onConfig(card.id)"
               >
@@ -99,6 +100,7 @@
             <div class="row mt-2 d-flex justify-content-center">
               <button
                 class="btn btn-secondary btn-md col-1"
+                data-testid="btn-ok-erro"
                 (click)="this.error = false; this.errorMsg = '';"
               >
                 OK

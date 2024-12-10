@@ -246,6 +246,7 @@
             <input
               class="form-check-input me-3"
               type="checkbox"
+              data-testid="input-entrega-cobranca"
               formControlName="cobranca"
               id="checkCobranca"
               value="false"
@@ -263,6 +264,7 @@
             <button
               class="btn btn-primary btn-lg w-20 me-3"
               type="button"
+              data-testid="btn-alterar"
               (click)="onSubmit()"
             >
               Alterar
@@ -317,6 +319,7 @@
           <div class="row mt-2 d-flex justify-content-center">
             <button
               class="btn btn-secondary btn-md col-1"
+              data-testid="btn-ok-erro"
               (click)="this.error = false; this.errorMsg = ''"
             >
               OK

@@ -18,12 +18,12 @@
           <a class="nav-link" data-testid="meus-pedidos-link" href="/meu-perfil/pedidos">Meus Pedidos</a>
         </li>
         <li class="nav-item"> 
-          <a class="nav-link" href="/meu-perfil/trocas">Minhas Trocas 
+          <a class="nav-link" data-testid="minhas-trocas-link" href="/meu-perfil/trocas">Minhas Trocas 
             <span *ngIf="notificationService.isHaveNotification()" class="notify"></span>
           </a>
         </li>
         <li class="nav-item"> 
-          <a class="nav-link" href="/meu-perfil/cupom">Meus Cupons</a>
+          <a class="nav-link" data-testid="meus-cupons-link" href="/meu-perfil/cupom">Meus Cupons</a>
         </li>
       </ul>
     </div>
@@ -190,6 +190,7 @@
                 />
               <button
                 type="button"
+                data-testid="btn-mostrar-senha"
                 class="btn btn-outline-secondary"
                 (click)="showPassword = !showPassword"
               >
@@ -216,6 +217,7 @@
               />
               <button
                 type="button"
+                data-testid="btn-mostrar-confirm-senha"
                 class="btn btn-outline-secondary"
                 (click)="showPasswordAgain = !showPasswordAgain"
               >

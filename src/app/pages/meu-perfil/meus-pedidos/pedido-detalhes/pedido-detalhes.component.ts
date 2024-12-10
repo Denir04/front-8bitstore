@@ -89,10 +89,10 @@ export class PedidoDetalhesComponent implements OnInit {
           this.notificationService.getUnreadNotifications();
         });
       },
-      (err) => {
-        console.error(err);
+      ({error: {error}}) => {
+        console.error(error);
         this.errorModal = true;
-        this.errorMsg = err.error;
+        this.errorMsg = error;
         this.loadingTroca = false;
       }
     )
@@ -102,6 +102,8 @@ export class PedidoDetalhesComponent implements OnInit {
   confirmSuccess(){
     this.success = false;
     this.closeModal();
+    window.location.reload();
+    
   }
 
 }
